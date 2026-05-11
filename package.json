@@ -82,7 +82,7 @@
     "zustand": "^5.0.13"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
+    "@types/jest": "29.5.14",
     "@types/node": "^25.6.2",
     "@types/react": "~19.2.10",
     "babel-preset-expo": "^55.0.21",
@@ -90,7 +90,7 @@
     "jest-expo": "^55.0.17",
     "prettier": "^3.7.4",
     "react-native-svg-transformer": "^1.5.3",
-    "typescript": "^6.0.3"
+    "typescript": "~5.9.2"
   },
   "expo": {
     "install": {
