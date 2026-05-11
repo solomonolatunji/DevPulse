@@ -1,8 +1,17 @@
 import { AuthService } from '@/services/auth.service';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { encodeBase64 } from './base64';
 import { config } from './config';
 import { WakaTimeApiError } from './errors';
+import {
+  attachRequestHeadersInterceptor,
+  buildAuthHeaders,
+  createHttpClient,
+  createTextRequestConfig,
+  isSuccessfulStatus,
+  normalizeHeaders,
+  parseTextResponse,
+  textRequest,
+} from './http';
 
 export const getAuthToken = () => {
   const { accessToken } = useAuthStore.getState();
@@ -12,42 +21,39 @@ export const getAuthToken = () => {
   return accessToken;
 };
 
-export const getHeaders = (
-  token: string,
-  type: 'bearer' | 'basic' = 'bearer',
-) => {
-  const authHeader =
-    type === 'basic' ? `Basic ${encodeBase64(token)}` : `Bearer ${token}`;
+const wakaTimeClient = createHttpClient({
+  baseURL: config.WAKATIME_API_BASE_URL,
+});
+attachRequestHeadersInterceptor(wakaTimeClient, () => {
+  const { accessToken, tokenType } = useAuthStore.getState();
 
-  return {
-    Authorization: authHeader,
-    'User-Agent': 'DevPulse/1.0 (React Native)',
-  };
-};
+  if (!accessToken) {
+    return {};
+  }
+
+  return buildAuthHeaders(accessToken, tokenType || 'bearer');
+});
 
 export async function fetchWithAuth<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const { accessToken: token, tokenType } = useAuthStore.getState();
+  const { accessToken: token } = useAuthStore.getState();
   if (!token) {
     throw new Error('No Access Token found');
   }
-  const url = `${config.WAKATIME_API_BASE_URL}${endpoint}`;
 
   const headers = {
-    ...getHeaders(token, tokenType || 'bearer'),
-    ...(options.headers || {}),
+    ...normalizeHeaders(options.headers),
     'Content-Type': 'application/json',
     'Cache-Control': 'no-cache',
     Pragma: 'no-cache',
     Expires: '0',
   };
 
-  let response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  const requestConfig = createTextRequestConfig(endpoint, options, headers);
+
+  let response = await textRequest(wakaTimeClient, requestConfig);
 
   if (response.status === 401) {
     const {
@@ -74,14 +80,9 @@ export async function fetchWithAuth<T>(
         refreshData.expires_in,
       );
 
-      const newToken = refreshData.access_token;
-      const retryHeaders = {
-        ...headers,
-        ...getHeaders(newToken, 'bearer'),
-      };
-      response = await fetch(url, {
-        ...options,
-        headers: retryHeaders,
+      response = await textRequest(wakaTimeClient, {
+        ...requestConfig,
+        headers,
       });
 
       if (response.status === 401) {
@@ -99,10 +100,13 @@ export async function fetchWithAuth<T>(
     }
   }
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new WakaTimeApiError(response.status, response.statusText, errorText);
+  if (!isSuccessfulStatus(response.status)) {
+    throw new WakaTimeApiError(
+      response.status,
+      response.statusText,
+      response.data ?? '',
+    );
   }
 
-  return response.json();
+  return parseTextResponse<T>(response);
 }
