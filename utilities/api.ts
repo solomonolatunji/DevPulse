@@ -1,8 +1,8 @@
 import { AuthService } from '@/services/auth.service';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { encodeBase64 } from './base64';
 import { config } from './config';
 import { WakaTimeApiError } from './errors';
-import { encodeBase64 } from './base64';
 
 export const getAuthToken = () => {
   const { accessToken } = useAuthStore.getState();

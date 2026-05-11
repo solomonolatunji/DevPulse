@@ -13,13 +13,16 @@ import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   RefreshControl,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function LeaderboardScreen() {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const { data: user } = useUser();
   const bottomSheetRef = React.useRef<BottomSheetModal>(null);
   const { selectedOrganization } = useOrganizationStore();
@@ -73,6 +76,11 @@ export default function LeaderboardScreen() {
   };
 
   const showCountrySelector = !selectedOrganization;
+  const footerReservedSpace = selectedOrganization
+    ? styles.listContent.paddingBottom
+    : Platform.OS === 'ios'
+      ? 160 + Math.max(insets.bottom, 12)
+      : styles.listContentWithFooter.paddingBottom;
 
   const onRefresh = React.useCallback(() => {
     refetch();
@@ -174,7 +182,7 @@ export default function LeaderboardScreen() {
         keyExtractor={(item) => item.user.id}
         contentContainerStyle={[
           styles.listContent,
-          !selectedOrganization && styles.listContentWithFooter,
+          { paddingBottom: footerReservedSpace },
         ]}
         ListHeaderComponent={<TopThreePodium users={topThree} />}
         ListFooterComponent={

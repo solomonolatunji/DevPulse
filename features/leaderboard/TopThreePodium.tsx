@@ -100,12 +100,19 @@ export const TopThreePodium = ({ users }: TopThreePodiumProps) => {
               )}
             </View>
 
-            <View style={styles.podiumInfo}>
+            <View
+              style={[
+                styles.podiumInfo,
+                !isFirst && styles.podiumInfoSide,
+                podiumRank === 3 && styles.podiumInfoThird,
+              ]}
+            >
               <Typography
                 variant="caption"
                 weight="bold"
                 align="center"
                 numberOfLines={1}
+                style={[styles.nameText, !isFirst && styles.nameTextSide]}
               >
                 {user.user.display_name || user.user.username || 'Anon'}
               </Typography>
@@ -114,6 +121,8 @@ export const TopThreePodium = ({ users }: TopThreePodiumProps) => {
                 color={theme.colors.textSecondary}
                 align="center"
                 weight="medium"
+                numberOfLines={1}
+                style={styles.totalText}
               >
                 {user.running_total.human_readable_total
                   .replace('hrs', 'h')
@@ -147,16 +156,17 @@ export const TopThreePodium = ({ users }: TopThreePodiumProps) => {
 const styles = StyleSheet.create({
   podiumContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'flex-end',
     marginTop: 24,
     marginBottom: 32,
-    paddingHorizontal: 8,
+    gap: 10,
   },
   podiumItem: {
     flex: 1,
     alignItems: 'center',
     position: 'relative',
+    minWidth: 0,
   },
   podiumItemFirst: {
     zIndex: 2,
@@ -207,12 +217,32 @@ const styles = StyleSheet.create({
     zIndex: 3,
   },
   podiumInfo: {
-    paddingHorizontal: 4,
+    paddingHorizontal: 6,
     marginBottom: 8,
+    width: '100%',
+    minWidth: 0,
+    overflow: 'hidden',
+    alignItems: 'center',
+  },
+  podiumInfoSide: {
+    paddingTop: 8,
+  },
+  podiumInfoThird: {
+    paddingTop: 12,
+  },
+  nameText: {
+    width: '100%',
+    flexShrink: 1,
+  },
+  nameTextSide: {
+    fontSize: 12,
+    lineHeight: 14,
+  },
+  totalText: {
     width: '100%',
   },
   pedestal: {
-    width: '90%',
+    width: '100%',
     borderRadius: 12,
     position: 'absolute',
     bottom: -16,
@@ -220,12 +250,11 @@ const styles = StyleSheet.create({
   },
   pedestalFirst: {
     height: 90,
-    width: '100%',
   },
   pedestalSecond: {
     height: 70,
   },
   pedestalThird: {
-    height: 50,
+    height: 58,
   },
 });

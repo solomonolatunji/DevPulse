@@ -1,12 +1,13 @@
 import { AppProviders, ThemedToaster } from '@/components';
-import { registerBackgroundSync, telemetryService } from '@/services';
 import { useUser } from '@/hooks';
+import { registerBackgroundSync, telemetryService } from '@/services';
 import { useAuthStore } from '@/stores';
 import {
   requestNotificationPermissions,
   scheduleSmartDailyReminders,
   setupNotificationHandler,
 } from '@/utilities';
+import '@/utilities/webStorageShim';
 import {
   Outfit_400Regular,
   Outfit_600SemiBold,
@@ -18,18 +19,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import * as WebBrowser from 'expo-web-browser';
 import React, { useEffect } from 'react';
-import { Platform, View } from 'react-native';
-
-if (Platform.OS === 'web' && typeof window === 'undefined') {
-  global.localStorage = {
-    getItem: () => null,
-    setItem: () => {},
-    removeItem: () => {},
-    clear: () => {},
-    length: 0,
-    key: () => null,
-  } as any;
-}
+import { View } from 'react-native';
 
 SplashScreen.preventAutoHideAsync();
 WebBrowser.maybeCompleteAuthSession();

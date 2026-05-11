@@ -4,14 +4,17 @@ import { Typography } from '@/components/Typography';
 import { useLeaderboardContext } from '@/contexts/LeaderboardContext';
 import { useStats, useTheme, useUser } from '@/hooks';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const CurrentUserRank = () => {
   const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
   const { currentUserRank, userCountry, selectedCountry, userRanks } =
     useLeaderboardContext();
   const { data: weeklyStats } = useStats('last_7_days');
   const { data: user } = useUser();
+  const bottomOffset = Platform.OS === 'ios' ? Math.max(insets.bottom, 12) : 0;
 
   const isGlobalView = !selectedCountry || selectedCountry === 'GLOBAL';
   const isOwnCountryView = selectedCountry === userCountry;
@@ -49,6 +52,7 @@ export const CurrentUserRank = () => {
         {
           backgroundColor: theme.colors.surface,
           borderTopColor: theme.colors.border,
+          bottom: bottomOffset,
         },
       ]}
     >
@@ -108,7 +112,6 @@ export const CurrentUserRank = () => {
 const styles = StyleSheet.create({
   currentUserContainer: {
     position: 'absolute',
-    bottom: 0,
     left: 0,
     right: 0,
     padding: 12,

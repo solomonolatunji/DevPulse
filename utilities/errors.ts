@@ -2,6 +2,13 @@
  * Custom error class for WakaTime API failures.
  * Encapsulates status codes and response text for better error handling.
  */
+type ErrorWithCaptureStackTrace = ErrorConstructor & {
+  captureStackTrace?: (
+    targetObject: object,
+    constructorOpt?: new (...args: any[]) => Error,
+  ) => void;
+};
+
 export class WakaTimeApiError extends Error {
   constructor(
     public status: number,
@@ -13,8 +20,9 @@ export class WakaTimeApiError extends Error {
     this.name = 'WakaTimeApiError';
 
     // Maintains proper stack trace for where our error was thrown (only available on V8)
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, WakaTimeApiError);
+    const errorConstructor = Error as ErrorWithCaptureStackTrace;
+    if (errorConstructor.captureStackTrace) {
+      errorConstructor.captureStackTrace(this, WakaTimeApiError);
     }
   }
 
