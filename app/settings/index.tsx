@@ -149,13 +149,13 @@ export default function SettingsScreen() {
             icon="bar-chart-2"
             label="Coding Stats"
             description="Detailed analytics and charts"
-            onPress={() => router.push('/stats/numbers' as any)}
+            onPress={() => router.push('/stats/numbers')}
           />
           <SettingItem
             icon="clock"
             label="Session History"
             description="Daily session activity timeline"
-            onPress={() => router.push('/stats/sessions' as any)}
+            onPress={() => router.push('/stats/sessions')}
           />
         </Card>
 

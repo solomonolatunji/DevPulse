@@ -60,7 +60,7 @@ export const wakaService = {
   getGoals: (): Promise<WakaTimeGoalsResponse> =>
     fetchWithAuth<WakaTimeGoalsResponse>('/users/current/goals'),
 
-  createGoal: (data: Partial<WakaTimeGoal>): Promise<any> =>
+  createGoal: (data: Partial<WakaTimeGoal>): Promise<WakaTimeGoal> =>
     fetchWithAuth<WakaTimeGoal>('/users/current/goals', {
       method: 'POST',
       body: JSON.stringify(data),

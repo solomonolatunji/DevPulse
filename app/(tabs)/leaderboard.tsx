@@ -96,6 +96,8 @@ export default function LeaderboardScreen() {
     ],
     [remainingUsers, shouldShowCurrentUserSticky],
   );
+  const canShareLeaderboard =
+    !selectedOrganization && leaderboardData.length > 0;
 
   const handlePresentModalPress = React.useCallback(() => {
     bottomSheetRef.current?.present();
@@ -136,7 +138,7 @@ export default function LeaderboardScreen() {
         <Header
           title="Leaderboard"
           subtitle={getSubtitle()}
-          onShare={handleShare}
+          onShare={canShareLeaderboard ? handleShare : undefined}
           rightElement={
             !selectedOrganization ? (
               <TouchableOpacity
@@ -173,7 +175,7 @@ export default function LeaderboardScreen() {
       <Header
         title="Leaderboard"
         subtitle={getSubtitle()}
-        onShare={handleShare}
+        onShare={canShareLeaderboard ? handleShare : undefined}
         rightElement={
           showCountrySelector ? (
             <TouchableOpacity
@@ -200,23 +202,25 @@ export default function LeaderboardScreen() {
       />
 
       {/* Hidden share card for capture - Always render with fallback */}
-      <LeaderboardShareCard
-        ref={shareCardRef}
-        rank={currentUserRank?.rank}
-        displayName={
-          currentUserRank?.user.display_name ||
-          currentUserRank?.user.username ||
-          user?.data.display_name ||
-          user?.data.username ||
-          'Developer'
-        }
-        username={currentUserRank?.user.username || user?.data.username}
-        photo={currentUserRank?.user.photo || user?.data.photo}
-        totalTime={allTime?.data.text}
-        country={currentUserRank?.user.city?.title || user?.data.city?.title}
-        scope={getSubtitle()}
-        top3Users={topThree}
-      />
+      {canShareLeaderboard ? (
+        <LeaderboardShareCard
+          ref={shareCardRef}
+          rank={currentUserRank?.rank}
+          displayName={
+            currentUserRank?.user.display_name ||
+            currentUserRank?.user.username ||
+            user?.data.display_name ||
+            user?.data.username ||
+            'Developer'
+          }
+          username={currentUserRank?.user.username || user?.data.username}
+          photo={currentUserRank?.user.photo || user?.data.photo}
+          totalTime={allTime?.data.text}
+          country={currentUserRank?.user.city?.title || user?.data.city?.title}
+          scope={getSubtitle()}
+          top3Users={topThree}
+        />
+      ) : null}
 
       <FlatList
         data={listData}

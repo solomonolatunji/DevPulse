@@ -21,6 +21,7 @@ import {
   useUser,
   useWidgetSync,
 } from '@/hooks';
+import { useOrganizationStore } from '@/stores';
 import { dashboardStyles as styles } from '@/theme/styles/dashboard';
 import {
   calculateDailyAveragePercent,
@@ -48,6 +49,7 @@ export default function Dashboard() {
   const { theme } = useTheme();
   const { isLoading: userLoading } = useUser();
   const { getLanguageColor } = useMetadata();
+  const { selectedOrganization } = useOrganizationStore();
 
   const {
     data: allTimeData,
@@ -208,7 +210,7 @@ export default function Dashboard() {
     };
   }, [todaySummaries, dailyAverage, getLanguageColor, theme.colors]);
 
-  useWidgetSync(statsForWidget);
+  useWidgetSync(statsForWidget, !selectedOrganization);
 
   const todayProjects = latestProjects;
   const monthTotal = monthSummaries?.cumulative_total?.text || '0 hrs 0 mins';

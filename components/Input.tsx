@@ -5,8 +5,10 @@ import {
   TextInput as NativeTextInput,
   Pressable,
   StyleSheet,
+  StyleProp,
   TextInputProps,
   View,
+  ViewStyle,
 } from 'react-native';
 import { Typography } from './Typography';
 
@@ -20,6 +22,7 @@ interface InputProps extends TextInputProps {
   size?: 'sm' | 'md' | 'lg';
   prominentLabel?: boolean;
   labelRight?: React.ReactNode;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 export const TextInput = ({
@@ -37,17 +40,19 @@ export const TextInput = ({
   size = 'md',
   prominentLabel,
   ...props
-}: InputProps & { containerStyle?: any }) => {
+}: InputProps) => {
   const { theme } = useTheme();
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<NativeTextInput>(null);
+  type InputFocusEvent = Parameters<NonNullable<TextInputProps['onFocus']>>[0];
+  type InputBlurEvent = Parameters<NonNullable<TextInputProps['onBlur']>>[0];
 
-  const handleFocus = (e: any) => {
+  const handleFocus = (e: InputFocusEvent) => {
     setIsFocused(true);
     onFocus?.(e);
   };
 
-  const handleBlur = (e: any) => {
+  const handleBlur = (e: InputBlurEvent) => {
     setIsFocused(false);
     onBlur?.(e);
   };

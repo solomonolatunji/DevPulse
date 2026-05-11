@@ -108,26 +108,34 @@ export async function scheduleGoalReminders(
     });
 
     if (delta === 'week' || delta === 'month') {
-      const trigger =
-        delta === 'week'
-          ? { weekday: 1, hour: 9, minute: 0 }
-          : { day: 1, hour: 9, minute: 0 };
+      const content = {
+        title: '🗓️ Period Review',
+        body: `Time to check your ${delta}ly progress on ${goalTitle}!`,
+        sound: 'default' as const,
+        data: { type: 'goal_deadline' },
+      };
 
-      await Notifications.scheduleNotificationAsync({
-        content: {
-          title: '🗓️ Period Review',
-          body: `Time to check your ${delta}ly progress on ${goalTitle}!`,
-          sound: 'default',
-          data: { type: 'goal_deadline' },
-        },
-        trigger: {
-          type:
-            delta === 'week'
-              ? Notifications.SchedulableTriggerInputTypes.WEEKLY
-              : Notifications.SchedulableTriggerInputTypes.MONTHLY,
-          ...(trigger as any),
-        },
-      });
+      if (delta === 'week') {
+        await Notifications.scheduleNotificationAsync({
+          content,
+          trigger: {
+            type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
+            weekday: 1,
+            hour: 9,
+            minute: 0,
+          },
+        });
+      } else {
+        await Notifications.scheduleNotificationAsync({
+          content,
+          trigger: {
+            type: Notifications.SchedulableTriggerInputTypes.MONTHLY,
+            day: 1,
+            hour: 9,
+            minute: 0,
+          },
+        });
+      }
     }
   } catch (error) {
     console.error('[Notifications] Failed to schedule goal reminders:', error);

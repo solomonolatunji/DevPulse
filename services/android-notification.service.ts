@@ -11,6 +11,7 @@ const CHANNEL_ID = 'devpulse_live_stats';
  */
 class AndroidNotificationService {
   private isChannelCreated = false;
+  private isHandlerConfigured = false;
 
   /**
    * Creates the notification channel if it doesn't exist.
@@ -38,6 +39,22 @@ class AndroidNotificationService {
     }
   }
 
+  private ensureNotificationHandler() {
+    if (this.isHandlerConfigured || Platform.OS !== 'android') return;
+
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+        shouldShowBanner: true,
+        shouldShowList: true,
+      }),
+    });
+
+    this.isHandlerConfigured = true;
+  }
+
   /**
    * Updates or creates a sticky notification with the latest stats.
    */
@@ -46,16 +63,7 @@ class AndroidNotificationService {
 
     try {
       await this.ensureChannel();
-
-      Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-          shouldShowAlert: true,
-          shouldPlaySound: false,
-          shouldSetBadge: false,
-          shouldShowBanner: true,
-          shouldShowList: true,
-        }),
-      });
+      this.ensureNotificationHandler();
 
       const content: Notifications.NotificationContentInput = {
         title: "DevPulse: Today's Coding Time",

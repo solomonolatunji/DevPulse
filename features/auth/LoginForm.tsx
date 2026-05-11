@@ -117,7 +117,7 @@ export function LoginForm() {
           onPress={async () => {
             try {
               await promptAsync();
-            } catch (err: any) {
+            } catch {
               toastError('Login Error', 'Failed to open the login screen.');
             }
           }}

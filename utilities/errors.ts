@@ -5,7 +5,7 @@
 type ErrorWithCaptureStackTrace = ErrorConstructor & {
   captureStackTrace?: (
     targetObject: object,
-    constructorOpt?: new (...args: any[]) => Error,
+    constructorOpt?: new (...args: unknown[]) => Error,
   ) => void;
 };
 
@@ -36,7 +36,7 @@ export class WakaTimeApiError extends Error {
   /**
    * Helper to parse the error body if it's JSON.
    */
-  get json(): any {
+  get json(): unknown | null {
     try {
       return JSON.parse(this.body);
     } catch {

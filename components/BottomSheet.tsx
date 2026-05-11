@@ -1,5 +1,9 @@
 import { useTheme } from '@/hooks/useTheme';
-import { BottomSheetBackdrop, BottomSheetModal } from '@gorhom/bottom-sheet';
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  type BottomSheetBackdropProps,
+} from '@gorhom/bottom-sheet';
 import React, { forwardRef, useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -40,7 +44,7 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
     );
 
     const renderBackdrop = useCallback(
-      (props: any) => (
+      (props: BottomSheetBackdropProps) => (
         <BottomSheetBackdrop
           {...props}
           disappearsOnIndex={-1}

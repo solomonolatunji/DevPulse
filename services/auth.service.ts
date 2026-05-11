@@ -1,11 +1,15 @@
 import { AuthConfig } from '@/features/auth/AuthConfig';
 import { encodeBase64 } from '@/utilities/base64';
 import {
+  normalizeTokenResponse,
+  parseTokenPayload,
+  type RawTokenPayload,
+} from '@/utilities/authToken';
+import {
   createHttpClient,
   isSuccessfulStatus,
   textRequest,
 } from '@/utilities/http';
-import { AxiosResponse } from 'axios';
 
 export interface TokenResponse {
   access_token: string;
@@ -14,50 +18,11 @@ export interface TokenResponse {
   uid: string;
 }
 
-type RawTokenPayload = {
-  access_token?: string;
-  refresh_token?: string;
-  expires_in?: string | number;
-  uid?: string;
-  error?: string;
-  error_description?: string;
-};
-
 const formHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded',
   Accept: 'application/json, application/x-www-form-urlencoded',
 };
 const authClient = createHttpClient();
-
-const parseTokenPayload = (
-  response: AxiosResponse<string>,
-): RawTokenPayload => {
-  const responseText = response.data ?? '';
-  const contentTypeHeader = response.headers['content-type'];
-  const contentType = Array.isArray(contentTypeHeader)
-    ? contentTypeHeader.join(', ')
-    : String(contentTypeHeader ?? '');
-
-  if (
-    contentType?.includes('application/json') ||
-    responseText.trim().startsWith('{')
-  ) {
-    try {
-      return JSON.parse(responseText) as Record<string, string>;
-    } catch {
-      return Object.fromEntries(new URLSearchParams(responseText).entries());
-    }
-  }
-
-  return Object.fromEntries(new URLSearchParams(responseText).entries());
-};
-
-const normalizeTokenResponse = (payload: RawTokenPayload): TokenResponse => ({
-  access_token: payload.access_token || '',
-  refresh_token: payload.refresh_token || '',
-  expires_in: payload.expires_in ? Number(payload.expires_in) : 0,
-  uid: payload.uid || '',
-});
 
 export const AuthService = {
   /**

@@ -2,7 +2,14 @@ import { useTheme } from '@/hooks/useTheme';
 import { Ionicons } from '@expo/vector-icons';
 import { BottomSheetFlatList, BottomSheetModal } from '@gorhom/bottom-sheet';
 import React, { useMemo, useRef, useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  TextInput,
+  View,
+  ViewStyle,
+} from 'react-native';
 import { BottomSheet } from './BottomSheet';
 import { Typography } from './Typography';
 
@@ -26,7 +33,7 @@ interface SelectProps {
   categories?: string[];
   hideSearch?: boolean;
   snapPoints?: string[];
-  triggerStyle?: any;
+  triggerStyle?: StyleProp<ViewStyle>;
   compact?: boolean;
 }
 
@@ -143,7 +150,7 @@ export function Select({
         <BottomSheetFlatList<SelectOption>
           showsVerticalScrollIndicator={false}
           data={filteredOptions}
-          keyExtractor={(item: { value: any }) => item.value}
+          keyExtractor={(item) => item.value}
           renderItem={({ item }: { item: SelectOption }) => (
             <Pressable onPress={() => handleSelect(item)}>
               {({ pressed }) => (

@@ -12,7 +12,7 @@ export const DashboardBanner = () => {
   return (
     <TouchableOpacity
       style={[styles.banner, { backgroundColor: theme.colors.primary + '10' }]}
-      onPress={() => router.push('/stats/numbers' as any)}
+      onPress={() => router.push('/stats/numbers')}
     >
       <View>
         <Typography variant="body" weight="bold" color={theme.colors.primary}>

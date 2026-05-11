@@ -3,9 +3,11 @@ import * as Haptics from 'expo-haptics';
 import React from 'react';
 import {
   ActivityIndicator,
+  GestureResponderEvent,
   Pressable,
   PressableProps,
   StyleProp,
+  TextStyle,
   ViewStyle,
 } from 'react-native';
 import { Typography } from './Typography';
@@ -28,7 +30,7 @@ interface ButtonProps extends Omit<PressableProps, 'style'> {
   rightIcon?: React.ReactNode;
   fullWidth?: boolean;
   style?: StyleProp<ViewStyle>;
-  labelStyle?: any;
+  labelStyle?: StyleProp<TextStyle>;
 }
 
 export const Button = ({
@@ -47,7 +49,7 @@ export const Button = ({
 }: ButtonProps) => {
   const { theme } = useTheme();
 
-  const handlePress = (e: any) => {
+  const handlePress = (e: GestureResponderEvent) => {
     Haptics.selectionAsync();
     onPress?.(e);
   };
