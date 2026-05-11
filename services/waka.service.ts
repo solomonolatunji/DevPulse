@@ -61,19 +61,22 @@ export const wakaService = {
     fetchWithAuth<WakaTimeGoalsResponse>('/users/current/goals'),
 
   createGoal: (data: Partial<WakaTimeGoal>): Promise<any> =>
-    fetchWithAuth<any>('/users/current/goals', {
+    fetchWithAuth<WakaTimeGoal>('/users/current/goals', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
 
-  updateGoal: (id: string, data: Partial<WakaTimeGoal>): Promise<any> =>
-    fetchWithAuth<any>(`/users/current/goals/${id}`, {
+  updateGoal: (
+    id: string,
+    data: Partial<WakaTimeGoal>,
+  ): Promise<WakaTimeGoal> =>
+    fetchWithAuth<WakaTimeGoal>(`/users/current/goals/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     }),
 
-  deleteGoal: (id: string): Promise<any> =>
-    fetchWithAuth<any>(`/users/current/goals/${id}`, {
+  deleteGoal: (id: string): Promise<{ data?: unknown }> =>
+    fetchWithAuth<{ data?: unknown }>(`/users/current/goals/${id}`, {
       method: 'DELETE',
     }),
 

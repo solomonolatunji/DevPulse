@@ -7,13 +7,18 @@ import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export const CurrentUserRank = () => {
+interface CurrentUserRankProps {
+  mode?: 'overlay' | 'inline';
+}
+
+export const CurrentUserRank = ({ mode = 'overlay' }: CurrentUserRankProps) => {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { currentUserRank, userCountry, selectedCountry, userRanks } =
     useLeaderboardContext();
   const { data: weeklyStats } = useStats('last_7_days');
   const { data: user } = useUser();
+  const isOverlay = mode === 'overlay';
   const bottomOffset = Platform.OS === 'ios' ? Math.max(insets.bottom, 12) : 0;
 
   const isGlobalView = !selectedCountry || selectedCountry === 'GLOBAL';
@@ -48,12 +53,14 @@ export const CurrentUserRank = () => {
   return (
     <View
       style={[
-        styles.currentUserContainer,
-        {
-          backgroundColor: theme.colors.surface,
-          borderTopColor: theme.colors.border,
-          bottom: bottomOffset,
-        },
+        isOverlay ? styles.currentUserContainer : styles.inlineContainer,
+        isOverlay
+          ? {
+              backgroundColor: theme.colors.surface,
+              borderTopColor: theme.colors.border,
+              bottom: bottomOffset,
+            }
+          : undefined,
       ]}
     >
       <Card
@@ -63,7 +70,6 @@ export const CurrentUserRank = () => {
             marginBottom: 0,
             borderWidth: 1,
             borderColor: theme.colors.primary,
-            paddingVertical: 8,
           },
         ]}
       >
@@ -80,27 +86,30 @@ export const CurrentUserRank = () => {
           />
         </View>
         <View style={styles.userInfo}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography variant="caption" weight="bold">
+          <View style={styles.nameRow}>
+            <Typography
+              variant="caption"
+              weight="bold"
+              numberOfLines={1}
+              style={styles.nameText}
+            >
               {displayUser.display_name || displayUser.username || 'You'}
             </Typography>
             <Typography
               variant="micro"
               weight="bold"
               color={theme.colors.primary}
-              style={{ marginRight: 8 }}
+              style={{ marginLeft: 8, flexShrink: 0 }}
             >
               YOU
             </Typography>
           </View>
 
-          <Typography variant="micro" color={theme.colors.textSecondary}>
+          <Typography
+            variant="micro"
+            color={theme.colors.textSecondary}
+            numberOfLines={1}
+          >
             {statusText}
           </Typography>
         </View>
@@ -125,6 +134,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 12,
   },
+  inlineContainer: {
+    paddingBottom: 12,
+  },
   userCard: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -137,5 +149,14 @@ const styles = StyleSheet.create({
   },
   userInfo: {
     flex: 1,
+    minWidth: 0,
+  },
+  nameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  nameText: {
+    flex: 1,
+    minWidth: 0,
   },
 });

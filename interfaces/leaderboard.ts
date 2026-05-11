@@ -4,6 +4,7 @@ export interface LeaderboardUserProfile {
   username?: string;
   full_name?: string;
   display_name?: string;
+  created_at?: string;
   website?: string;
   human_readable_website?: string;
   is_hireable?: boolean;

@@ -30,8 +30,11 @@ export const useOrganizationStore = create<OrganizationState>()(
             organizations: response.data,
             isLoading: false,
           });
-        } catch (error: any) {
-          set({ error: error.message, isLoading: false });
+        } catch (error) {
+          set({
+            error: error instanceof Error ? error.message : 'Unknown error',
+            isLoading: false,
+          });
         }
       },
 

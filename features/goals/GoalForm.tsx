@@ -4,16 +4,28 @@ import { useTheme } from '@/hooks';
 import { WakaTimeGoal } from '@/interfaces';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, Resolver, useForm } from 'react-hook-form';
 import { StyleSheet, Switch, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { GoalFormData, goalSchema } from './schemas';
 
 interface GoalFormProps {
   initialData?: Partial<WakaTimeGoal>;
-  onSubmit: (data: Partial<WakaTimeGoal>) => void;
+  onSubmit: (data: GoalSubmissionData) => void;
   isLoading?: boolean;
   isEdit?: boolean;
+}
+
+export interface GoalSubmissionData {
+  title: string;
+  seconds: number;
+  delta: GoalFormData['delta'];
+  is_enabled: boolean;
+  is_inverse: boolean;
+  ignore_zero_days: boolean;
+  ignore_days: string[];
+  languages: string[];
+  projects: string[];
 }
 
 export const GoalForm = ({
@@ -29,7 +41,7 @@ export const GoalForm = ({
     handleSubmit,
     formState: { errors },
   } = useForm<GoalFormData>({
-    resolver: zodResolver(goalSchema) as any,
+    resolver: zodResolver(goalSchema) as Resolver<GoalFormData>,
     defaultValues: {
       title: initialData?.title || '',
       hours: initialData?.seconds

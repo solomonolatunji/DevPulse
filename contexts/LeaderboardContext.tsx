@@ -25,6 +25,7 @@ interface LeaderboardContextType {
   isFetchingNextPage: boolean;
   countries: typeof COUNTRIES;
   userCountry: string | undefined;
+  isOrganizationLeaderboardAvailable: boolean;
 }
 
 const LeaderboardContext = createContext<LeaderboardContextType | undefined>(
@@ -59,6 +60,7 @@ export function LeaderboardProvider({
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
+    isOrganizationLeaderboardAvailable,
   } = useLeaderboard();
 
   const leaderboardData = useMemo(
@@ -80,6 +82,7 @@ export function LeaderboardProvider({
     isFetchingNextPage,
     countries: COUNTRIES,
     userCountry,
+    isOrganizationLeaderboardAvailable,
   };
 
   return (

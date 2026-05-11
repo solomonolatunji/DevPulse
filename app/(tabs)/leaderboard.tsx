@@ -4,7 +4,14 @@ import { LeaderboardSkeleton } from '@/components/skeletons';
 import { COUNTRIES } from '@/constants/countries';
 import { useLeaderboardContext } from '@/contexts';
 import { CurrentUserRank, LeaderboardItem, TopThreePodium } from '@/features';
+import {
+  getRemainingLeaderboardUsers,
+  isCurrentUserInTopThree,
+  shouldHighlightInlineCurrentUser,
+  shouldShowStickyCurrentUserRow,
+} from '@/features/leaderboard/rules';
 import { useAllTime, useShareScreenshot, useTheme, useUser } from '@/hooks';
+import { LeaderboardUser } from '@/interfaces';
 import { useOrganizationStore } from '@/stores';
 import { leaderboardStyles as styles } from '@/theme';
 import { Feather } from '@expo/vector-icons';
@@ -13,16 +20,17 @@ import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
-  Platform,
   RefreshControl,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+type LeaderboardListItem =
+  | { type: 'current-user'; key: 'current-user' }
+  | { type: 'leader'; key: string; user: LeaderboardUser };
 
 export default function LeaderboardScreen() {
   const { theme } = useTheme();
-  const insets = useSafeAreaInsets();
   const { data: user } = useUser();
   const bottomSheetRef = React.useRef<BottomSheetModal>(null);
   const { selectedOrganization } = useOrganizationStore();
@@ -41,6 +49,8 @@ export default function LeaderboardScreen() {
     hasNextPage,
     isFetchingNextPage,
     countries,
+    userCountry,
+    isOrganizationLeaderboardAvailable,
   } = useLeaderboardContext();
 
   const topThree = React.useMemo(
@@ -48,9 +58,43 @@ export default function LeaderboardScreen() {
     [leaderboardData],
   );
 
+  const currentUserId = currentUserRank?.user.id || user?.data.id;
+  const currentUserRankValue = currentUserRank?.rank ?? undefined;
+  const currentUserInTopThree = React.useMemo(
+    () => isCurrentUserInTopThree(topThree, currentUserId),
+    [currentUserId, topThree],
+  );
+  const highlightCurrentUserInline = shouldHighlightInlineCurrentUser({
+    currentUserId,
+    currentUserRank: currentUserRankValue,
+    selectedOrganization,
+    selectedCountry,
+    userCountry,
+  });
+  const shouldShowCurrentUserSticky = shouldShowStickyCurrentUserRow({
+    currentUserId,
+    currentUserRank: currentUserRankValue,
+    selectedOrganization,
+    selectedCountry,
+    userCountry,
+    topThree,
+  });
   const remainingUsers = React.useMemo(
-    () => leaderboardData.slice(3),
+    () => getRemainingLeaderboardUsers(leaderboardData),
     [leaderboardData],
+  );
+  const listData = React.useMemo<LeaderboardListItem[]>(
+    () => [
+      ...(shouldShowCurrentUserSticky
+        ? [{ type: 'current-user', key: 'current-user' } as const]
+        : []),
+      ...remainingUsers.map((leader) => ({
+        type: 'leader' as const,
+        key: leader.user.id,
+        user: leader,
+      })),
+    ],
+    [remainingUsers, shouldShowCurrentUserSticky],
   );
 
   const handlePresentModalPress = React.useCallback(() => {
@@ -76,15 +120,13 @@ export default function LeaderboardScreen() {
   };
 
   const showCountrySelector = !selectedOrganization;
-  const footerReservedSpace = selectedOrganization
-    ? styles.listContent.paddingBottom
-    : Platform.OS === 'ios'
-      ? 160 + Math.max(insets.bottom, 12)
-      : styles.listContentWithFooter.paddingBottom;
 
   const onRefresh = React.useCallback(() => {
+    if (!isOrganizationLeaderboardAvailable) {
+      return;
+    }
     refetch();
-  }, [refetch]);
+  }, [isOrganizationLeaderboardAvailable, refetch]);
 
   if (isLoading && !leaderboardData.length) {
     return (
@@ -177,14 +219,27 @@ export default function LeaderboardScreen() {
       />
 
       <FlatList
-        data={remainingUsers}
-        renderItem={({ item }) => <LeaderboardItem item={item} />}
-        keyExtractor={(item) => item.user.id}
+        data={listData}
+        renderItem={({ item }) =>
+          item.type === 'current-user' ? (
+            <CurrentUserRank mode="inline" />
+          ) : (
+            <LeaderboardItem
+              item={item.user}
+              highlight={
+                highlightCurrentUserInline &&
+                item.user.user.id === currentUserId
+              }
+            />
+          )
+        }
+        keyExtractor={(item) => item.key}
         contentContainerStyle={[
           styles.listContent,
-          { paddingBottom: footerReservedSpace },
+          { paddingBottom: styles.listContent.paddingBottom },
         ]}
         ListHeaderComponent={<TopThreePodium users={topThree} />}
+        stickyHeaderIndices={shouldShowCurrentUserSticky ? [1] : undefined}
         ListFooterComponent={
           isFetchingNextPage ? (
             <View style={styles.footerLoader}>
@@ -201,15 +256,16 @@ export default function LeaderboardScreen() {
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
-            refreshing={isRefetching}
-            onRefresh={refetch}
+            refreshing={isOrganizationLeaderboardAvailable && isRefetching}
+            onRefresh={onRefresh}
+            enabled={isOrganizationLeaderboardAvailable}
             tintColor={theme.colors.primary}
             colors={[theme.colors.primary]}
             progressBackgroundColor={theme.colors.surface}
           />
         }
         ListEmptyComponent={
-          remainingUsers.length === 0 && leaderboardData.length === 0 ? (
+          listData.length === 0 && leaderboardData.length === 0 ? (
             <View style={styles.emptyState}>
               <Feather name="users" size={48} color={theme.colors.border} />
               <Typography
@@ -218,7 +274,7 @@ export default function LeaderboardScreen() {
                 style={styles.emptyTitle}
               >
                 {selectedOrganization
-                  ? 'No Organization Data'
+                  ? 'Organization Leaderboard Unavailable'
                   : 'Leaderboard Unavailable'}
               </Typography>
               <Typography
@@ -226,15 +282,13 @@ export default function LeaderboardScreen() {
                 style={styles.emptySubtitle}
               >
                 {selectedOrganization
-                  ? `Leaderboard for ${selectedOrganization.name} is not available yet.`
+                  ? `${selectedOrganization.name} does not have a supported leaderboard yet. Switch to Personal to view country or global rankings.`
                   : 'Unable to fetch leaderboard data at this time.'}
               </Typography>
             </View>
           ) : null
         }
       />
-
-      {!selectedOrganization && <CurrentUserRank />}
 
       <BottomSheet
         ref={bottomSheetRef}

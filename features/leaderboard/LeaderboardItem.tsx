@@ -8,9 +8,13 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface LeaderboardItemProps {
   item: LeaderboardUser;
+  highlight?: boolean;
 }
 
-export const LeaderboardItem = ({ item }: LeaderboardItemProps) => {
+export const LeaderboardItem = ({
+  item,
+  highlight = false,
+}: LeaderboardItemProps) => {
   const { theme } = useTheme();
   const router = useRouter();
 
@@ -28,6 +32,15 @@ export const LeaderboardItem = ({ item }: LeaderboardItemProps) => {
     },
     userInfo: {
       flex: 1,
+      minWidth: 0,
+    },
+    nameRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    nameText: {
+      flex: 1,
+      minWidth: 0,
     },
   });
 
@@ -36,12 +49,22 @@ export const LeaderboardItem = ({ item }: LeaderboardItemProps) => {
       activeOpacity={0.7}
       onPress={() => router.push(`/user/${item.user.id}`)}
     >
-      <Card style={styles.userCard}>
+      <Card
+        style={[
+          styles.userCard,
+          highlight && {
+            borderWidth: 1,
+            borderColor: theme.colors.primary,
+          },
+        ]}
+      >
         <View style={styles.rankContainer}>
           <Typography
             variant="body"
             weight="bold"
-            color={theme.colors.textSecondary}
+            color={
+              highlight ? theme.colors.primary : theme.colors.textSecondary
+            }
           >
             #{item.rank}
           </Typography>
@@ -54,9 +77,26 @@ export const LeaderboardItem = ({ item }: LeaderboardItemProps) => {
           />
         </View>
         <View style={styles.userInfo}>
-          <Typography variant="caption" weight="bold" numberOfLines={1}>
-            {item.user.display_name || item.user.username || 'Anonymous'}
-          </Typography>
+          <View style={styles.nameRow}>
+            <Typography
+              variant="caption"
+              weight="bold"
+              numberOfLines={1}
+              style={styles.nameText}
+            >
+              {item.user.display_name || item.user.username || 'Anonymous'}
+            </Typography>
+            {highlight ? (
+              <Typography
+                variant="micro"
+                weight="bold"
+                color={theme.colors.primary}
+                style={{ marginLeft: 8, flexShrink: 0 }}
+              >
+                YOU
+              </Typography>
+            ) : null}
+          </View>
           <Typography
             variant="micro"
             color={theme.colors.textSecondary}

@@ -1,5 +1,5 @@
 import { GoalDetailsSkeleton } from '@/components/skeletons';
-import { GoalForm } from '@/features/goals/GoalForm';
+import { GoalForm, type GoalSubmissionData } from '@/features/goals/GoalForm';
 import { useGoalMutation, useGoals, useTheme } from '@/hooks';
 import { scheduleGoalReminders } from '@/utilities';
 import { Feather } from '@expo/vector-icons';
@@ -14,9 +14,9 @@ export default function EditGoalScreen() {
   const { data: goalsData, isLoading: goalsLoading } = useGoals();
   const { updateGoal, deleteGoal } = useGoalMutation();
 
-  const goal = goalsData?.data.find((g: any) => g.id === id);
+  const goal = goalsData?.data.find((g) => g.id === id);
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: GoalSubmissionData) => {
     if (!id) return;
     try {
       await updateGoal.mutateAsync({ id, data });

@@ -2,7 +2,7 @@ import { BottomSheet, Header, ListItem, Typography } from '@/components';
 import { ProjectListSkeleton } from '@/components/skeletons';
 import { ProjectCard } from '@/features';
 import { useDebounce, useProjects, useStats, useTheme } from '@/hooks';
-import { WakaTimeProject } from '@/interfaces';
+import { WakaTimeLanguage, WakaTimeProject } from '@/interfaces';
 import { projectsStyles as styles } from '@/theme';
 import { toastSuccess } from '@/utilities';
 import { Feather } from '@expo/vector-icons';
@@ -73,7 +73,7 @@ export default function ProjectsScreen() {
   const projectAllTimeMap = React.useMemo(() => {
     const map: Record<string, string> = {};
     if (allTimeStats?.data?.projects) {
-      allTimeStats.data.projects.forEach((p: any) => {
+      allTimeStats.data.projects.forEach((p: WakaTimeLanguage) => {
         map[p.name] = p.text;
       });
     }

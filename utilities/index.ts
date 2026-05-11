@@ -9,3 +9,4 @@ export * from './projectColors';
 export * from './storage';
 export * from './tasks';
 export * from './toast';
+export * from './widgetStats';

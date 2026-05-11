@@ -1,13 +1,13 @@
 import { Avatar, Typography } from '@/components';
 import { useTheme } from '@/hooks';
-import { User } from '@/interfaces';
+import { LeaderboardUserProfile, User } from '@/interfaces';
 import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import { Linking, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface ProfileHeaderProps {
-  user: User['data'];
-  rank: number | string;
+  user: User['data'] | LeaderboardUserProfile;
+  rank: number | string | null;
   isSelf: boolean;
 }
 

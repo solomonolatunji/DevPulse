@@ -4,6 +4,7 @@
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "strict": true,
+    "types": ["jest", "node"],
     "paths": {
       "@/*": ["./*"]
     }

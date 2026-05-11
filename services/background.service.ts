@@ -1,6 +1,10 @@
 import { darkTheme } from '@/theme/dark';
 import { lightTheme } from '@/theme/light';
-import { formatCompactDuration, formatDuration } from '@/utilities';
+import {
+  calculateDailyAveragePercent,
+  formatCompactDuration,
+  formatDuration,
+} from '@/utilities';
 import { syncDailyStats } from '@/widgets';
 import { format } from 'date-fns';
 import * as BackgroundTask from 'expo-background-task';
@@ -41,6 +45,7 @@ TaskManager.defineTask(WAKATIME_WIDGET_SYNC_TASK, async () => {
     const todayStr = format(now, 'yyyy-MM-dd');
 
     const summaries = await wakaService.getSummaries(todayStr, todayStr);
+    const stats = await wakaService.getStats('last_7_days');
     const todayData = summaries.data[0];
 
     if (!todayData) {
@@ -50,14 +55,12 @@ TaskManager.defineTask(WAKATIME_WIDGET_SYNC_TASK, async () => {
     const topProjectData = todayData.projects?.[0];
     const topLanguageData = todayData.languages?.[0];
 
-    const summariesData = summaries as any;
     const widgetTheme = await resolveWidgetTheme();
     const statsForWidget = {
       todayTotalText: formatDuration(todayData.grand_total.total_seconds || 0),
-      todayPercent: Math.round(
-        (todayData.grand_total.total_seconds /
-          (summariesData.cumulative_total?.average_seconds || 1)) *
-          100,
+      todayPercent: calculateDailyAveragePercent(
+        todayData.grand_total.total_seconds || 0,
+        stats.data.daily_average || 0,
       ),
       theme: widgetTheme,
       topLanguage: topLanguageData

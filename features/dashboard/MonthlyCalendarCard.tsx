@@ -26,6 +26,12 @@ interface DailySummary {
   activityLevel: number;
 }
 
+interface CalendarDayData {
+  day: string;
+  date: Date;
+  summary?: DailySummary;
+}
+
 interface MonthlyCalendarCardProps {
   monthDate: Date;
   totalTime: string;
@@ -90,7 +96,7 @@ export const MonthlyCalendarCard = ({
     return hexToRgba(theme.colors.primary, opacityMap[level] || 0.12);
   };
 
-  const renderDay = (dayData: any | null, index: number) => {
+  const renderDay = (dayData: CalendarDayData | null, index: number) => {
     if (!dayData) return <View key={index} style={styles.dayCell} />;
 
     const { summary, day, date } = dayData;

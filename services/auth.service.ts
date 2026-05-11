@@ -14,6 +14,15 @@ export interface TokenResponse {
   uid: string;
 }
 
+type RawTokenPayload = {
+  access_token?: string;
+  refresh_token?: string;
+  expires_in?: string | number;
+  uid?: string;
+  error?: string;
+  error_description?: string;
+};
+
 const formHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded',
   Accept: 'application/json, application/x-www-form-urlencoded',
@@ -22,7 +31,7 @@ const authClient = createHttpClient();
 
 const parseTokenPayload = (
   response: AxiosResponse<string>,
-): Record<string, string> => {
+): RawTokenPayload => {
   const responseText = response.data ?? '';
   const contentTypeHeader = response.headers['content-type'];
   const contentType = Array.isArray(contentTypeHeader)
@@ -42,6 +51,13 @@ const parseTokenPayload = (
 
   return Object.fromEntries(new URLSearchParams(responseText).entries());
 };
+
+const normalizeTokenResponse = (payload: RawTokenPayload): TokenResponse => ({
+  access_token: payload.access_token || '',
+  refresh_token: payload.refresh_token || '',
+  expires_in: payload.expires_in ? Number(payload.expires_in) : 0,
+  uid: payload.uid || '',
+});
 
 export const AuthService = {
   /**
@@ -71,7 +87,7 @@ export const AuthService = {
       );
     }
 
-    return data as unknown as TokenResponse;
+    return normalizeTokenResponse(data);
   },
 
   /**
@@ -101,7 +117,7 @@ export const AuthService = {
       );
     }
 
-    return data as unknown as TokenResponse;
+    return normalizeTokenResponse(data);
   },
 
   /**

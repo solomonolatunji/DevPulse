@@ -22,7 +22,11 @@ import {
   useWidgetSync,
 } from '@/hooks';
 import { dashboardStyles as styles } from '@/theme/styles/dashboard';
-import { formatCompactDuration, formatDuration } from '@/utilities';
+import {
+  calculateDailyAveragePercent,
+  formatCompactDuration,
+  formatDuration,
+} from '@/utilities';
 import { getProjectColor } from '@/utilities/projectColors';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
 import React, {
@@ -137,10 +141,7 @@ export default function Dashboard() {
     const todayData = todaySummaries?.data?.[0];
     const seconds = todayData?.grand_total?.total_seconds || 0;
     const text = formatDuration(seconds);
-    const percent =
-      dailyAverage > 0
-        ? Math.min(100, Math.round((seconds / dailyAverage) * 100))
-        : 0;
+    const percent = calculateDailyAveragePercent(seconds, dailyAverage);
 
     let goalDiffText = '';
     if (dailyAverage > 0) {

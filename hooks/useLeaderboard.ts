@@ -8,22 +8,16 @@ export function useLeaderboard() {
   const { selectedOrganization } = useOrganizationStore();
   const { data: user } = useUser();
   const orgId = selectedOrganization?.id;
+  const isOrganizationLeaderboardAvailable = !orgId;
   const countryCode =
     selectedCountry === 'GLOBAL' ? undefined : selectedCountry;
   const userCountry = user?.data?.city?.country_code;
 
   const leaderboardQuery = useInfiniteQuery({
     queryKey: ['leaderboard', selectedCountry, orgId],
-    queryFn: ({ pageParam = 1 }) => {
-      if (orgId) {
-        return Promise.resolve({
-          data: [],
-          total_pages: 0,
-          page: 1,
-        } as any);
-      }
-      return wakaService.getLeaderboard(undefined, countryCode, pageParam);
-    },
+    queryFn: ({ pageParam = 1 }) =>
+      wakaService.getLeaderboard(undefined, countryCode, pageParam),
+    enabled: isOrganizationLeaderboardAvailable,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.total_pages) {
@@ -58,7 +52,7 @@ export function useLeaderboard() {
         countryCurrentUser: countryResponse?.current_user,
       };
     },
-    enabled: !orgId,
+    enabled: isOrganizationLeaderboardAvailable,
     staleTime: 30 * 60 * 1000,
     refetchOnWindowFocus: true,
   });
@@ -80,6 +74,7 @@ export function useLeaderboard() {
     isRefetching: leaderboardQuery.isRefetching,
     isFetchingNextPage: leaderboardQuery.isFetchingNextPage,
     hasNextPage: leaderboardQuery.hasNextPage,
+    isOrganizationLeaderboardAvailable,
     error: leaderboardQuery.error
       ? (leaderboardQuery.error as Error).message
       : null,

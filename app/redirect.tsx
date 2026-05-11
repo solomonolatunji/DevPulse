@@ -31,8 +31,11 @@ export default function AuthRedirectScreen() {
         setTokens(data.access_token, data.refresh_token, expiresIn);
         toastSuccess('Success', 'WakaTime account connected');
         router.replace('/(tabs)');
-      } catch (err: any) {
-        toastError('Login Error', err.message);
+      } catch (err) {
+        toastError(
+          'Login Error',
+          err instanceof Error ? err.message : 'Failed to complete login',
+        );
         router.replace('/auth');
       } finally {
         exchangingCodes.delete(authCode);
