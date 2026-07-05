@@ -9,7 +9,7 @@ import { useTheme, useUser } from '@/hooks';
 import { settingsService, telemetryService } from '@/services';
 import { useAuthStore } from '@/stores';
 import { settingsStyles as styles } from '@/theme';
-import { Feather, MaterialIcons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
 import React, { useRef } from 'react';
@@ -204,7 +204,7 @@ export default function SettingsScreen() {
           size="lg"
           label="LOGOUT"
           onPress={handleLogout}
-          leftIcon={<MaterialIcons name="logout" size={20} color="#fff" />}
+          leftIcon={<Feather name="log-out" size={20} color="#fff" />}
           fullWidth
           style={{ marginTop: 24 }}
         />

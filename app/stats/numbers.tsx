@@ -17,7 +17,7 @@ import { AIProductivityCard } from '@/features/stats';
 import { useMetadata, useStats, useTheme } from '@/hooks';
 import { RANGE_API_MAP, TimeRange, VALID_TIME_RANGES } from '@/utilities';
 import { generateDeterministicColor } from '@/utilities/colors';
-import { Ionicons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
@@ -30,7 +30,7 @@ type SegmentedStatItem =
 type StatItem = {
   label: string;
   value: string;
-  icon: IoniconName;
+  icon: FeatherIconName;
   color: string;
   fullWidth?: boolean;
 };
@@ -73,39 +73,39 @@ export default function NumbersScreen() {
     {
       label: 'All Time Total',
       value: stats?.data?.human_readable_total || '0h 0m',
-      icon: 'time-outline',
+      icon: 'clock',
       color: theme.colors.primary,
       fullWidth: true,
     },
     {
       label: 'Daily Average',
       value: stats?.data?.human_readable_daily_average || '0h 0m',
-      icon: 'stats-chart-outline',
+      icon: 'bar-chart-2',
       color: theme.colors.secondary,
       fullWidth: true,
     },
     {
       label: 'Languages',
       value: stats?.data?.languages?.length?.toString() || '0',
-      icon: 'code-slash-outline',
+      icon: 'code',
       color: theme.colors.accent,
     },
     {
       label: 'Projects',
       value: stats?.data?.projects?.length?.toString() || '0',
-      icon: 'folder-outline',
+      icon: 'folder',
       color: '#4CAF50',
     },
     {
       label: 'Editors',
       value: stats?.data?.editors?.length?.toString() || '0',
-      icon: 'create-outline',
+      icon: 'edit-3',
       color: '#FF9800',
     },
     {
       label: 'OS',
       value: stats?.data?.operating_systems?.length?.toString() || '0',
-      icon: 'desktop-outline',
+      icon: 'monitor',
       color: '#9C27B0',
     },
   ];
@@ -195,7 +195,7 @@ export default function NumbersScreen() {
                   { backgroundColor: item.color + '20' },
                 ]}
               >
-                <Ionicons name={item.icon} size={24} color={item.color} />
+                <Feather name={item.icon} size={24} color={item.color} />
               </View>
               <View style={styles.statInfo}>
                 <Typography

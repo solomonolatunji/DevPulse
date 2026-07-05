@@ -1,5 +1,5 @@
 import { useTheme } from '@/hooks';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import MaterialCommunityIcons from '@react-native-vector-icons/material-design-icons/static';
 import { Tabs } from 'expo-router';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import React, { useEffect } from 'react';

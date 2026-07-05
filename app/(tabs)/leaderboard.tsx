@@ -14,7 +14,7 @@ import { useAllTime, useShareScreenshot, useTheme, useUser } from '@/hooks';
 import { LeaderboardUser } from '@/interfaces';
 import { useOrganizationStore } from '@/stores';
 import { leaderboardStyles as styles } from '@/theme';
-import { Feather } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { BottomSheetFlatList, BottomSheetModal } from '@gorhom/bottom-sheet';
 import React from 'react';
 import {

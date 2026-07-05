@@ -5,7 +5,7 @@ import { useDebounce, useProjects, useStats, useTheme } from '@/hooks';
 import { WakaTimeLanguage, WakaTimeProject } from '@/interfaces';
 import { projectsStyles as styles } from '@/theme';
 import { toastSuccess } from '@/utilities';
-import { Feather } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import React from 'react';
 import {

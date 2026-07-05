@@ -1,5 +1,5 @@
 import { useTheme } from '@/hooks/useTheme';
-import { Ionicons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { BottomSheetFlatList, BottomSheetModal } from '@gorhom/bottom-sheet';
 import React, { useMemo, useRef, useState } from 'react';
 import {
@@ -125,7 +125,7 @@ export function Select({
               {selectedOption ? selectedOption.label : placeholder || 'Select'}
             </Typography>
           </View>
-          <Ionicons
+          <Feather
             name="chevron-down"
             size={compact ? 16 : 20}
             color={theme.colors.textTertiary}
@@ -184,8 +184,8 @@ export function Select({
                       {item.label}
                     </Typography>
                   </View>
-                  <Ionicons
-                    name="chevron-forward"
+                  <Feather
+                    name="chevron-right"
                     size={18}
                     color={
                       pressed
@@ -253,7 +253,7 @@ export function Select({
                       },
                     ]}
                   >
-                    <Ionicons
+                    <Feather
                       name="search"
                       size={20}
                       color={theme.colors.textTertiary}

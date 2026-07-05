@@ -1,7 +1,8 @@
 import { Card, Typography } from '@/components';
 import { useTheme } from '@/hooks';
 import { calculatePercentageChange, formatDate } from '@/utilities';
-import { Ionicons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
+import MaterialCommunityIcons from '@react-native-vector-icons/material-design-icons/static';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -76,7 +77,7 @@ export const BestDayCard = ({
                 },
               ]}
             />
-            <Ionicons
+            <MaterialCommunityIcons
               name="trophy"
               size={32}
               color={isDark ? '#FBBF24' : '#F59E0B'}
@@ -125,7 +126,7 @@ export const BestDayCard = ({
                     },
                   ]}
                 >
-                  <Ionicons
+                  <Feather
                     name="trending-up"
                     size={12}
                     color={isDark ? '#4ADE80' : '#22C55E'}
@@ -144,8 +145,8 @@ export const BestDayCard = ({
 
             {topProject ? (
               <View style={styles.topProjectRow}>
-                <Ionicons
-                  name="code-slash-outline"
+                <Feather
+                  name="code"
                   size={12}
                   color={theme.colors.textSecondary}
                   style={{ marginRight: 4 }}
@@ -186,8 +187,8 @@ export const BestDayCard = ({
           </View>
 
           {/* Chevron indicator */}
-          <Ionicons
-            name="chevron-forward"
+          <Feather
+            name="chevron-right"
             size={18}
             color={theme.colors.textSecondary}
             style={{ opacity: 0.5 }}

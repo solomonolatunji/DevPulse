@@ -3,7 +3,7 @@ import { WEEK_DAYS } from '@/constants';
 import { useTheme } from '@/hooks';
 import { DATE_FORMATS, formatDate } from '@/utilities';
 import { hexToRgba } from '@/utilities/colors';
-import { Ionicons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import {
   eachDayOfInterval,
   endOfDay,
@@ -175,7 +175,7 @@ export const MonthlyCalendarCard = ({
       <View style={styles.header}>
         <View style={styles.monthNav}>
           <TouchableOpacity onPress={onPrevMonth} style={styles.navButton}>
-            <Ionicons name="chevron-back" size={24} color={theme.colors.text} />
+            <Feather name="chevron-left" size={24} color={theme.colors.text} />
           </TouchableOpacity>
           <View style={styles.monthInfo}>
             <Typography
@@ -200,8 +200,8 @@ export const MonthlyCalendarCard = ({
             style={styles.navButton}
             disabled={isCurrentMonth}
           >
-            <Ionicons
-              name="chevron-forward"
+            <Feather
+              name="chevron-right"
               size={24}
               color={theme.colors.text}
               style={{ opacity: isCurrentMonth ? 0.3 : 1 }}

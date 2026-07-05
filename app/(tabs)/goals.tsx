@@ -3,7 +3,7 @@ import { GoalsSkeleton } from '@/components/skeletons';
 import { useGoals, useTheme } from '@/hooks';
 import { WakaTimeGoal } from '@/interfaces';
 import { goalsStyles as styles } from '@/theme';
-import { Feather } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, RefreshControl, TouchableOpacity, View } from 'react-native';

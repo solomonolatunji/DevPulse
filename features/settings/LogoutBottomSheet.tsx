@@ -2,7 +2,7 @@ import { BottomSheet } from '@/components/BottomSheet';
 import { Button } from '@/components/Button';
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
-import { MaterialIcons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import React, { forwardRef } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -22,7 +22,7 @@ export const LogoutBottomSheet = forwardRef<
     <BottomSheet ref={ref} title="Logout" snapPoints={['50%']}>
       <View style={styles.logoutContent}>
         <View style={styles.logoutIconContainer}>
-          <MaterialIcons name="logout" size={40} color={theme.colors.error} />
+          <Feather name="log-out" size={40} color={theme.colors.error} />
         </View>
         <Typography variant="title" weight="bold" style={styles.logoutTitle}>
           Are you sure?

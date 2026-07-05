@@ -113,7 +113,9 @@
           "project": "devpulse-mobile"
         }
       ],
-      "expo-status-bar"
+      "expo-status-bar",
+      "@react-native-vector-icons/feather",
+      "@react-native-vector-icons/material-design-icons"
     ],
     "experiments": {
       "typedRoutes": true,

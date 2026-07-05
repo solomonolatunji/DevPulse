@@ -1,5 +1,5 @@
 import { useTheme } from '@/hooks/useTheme';
-import { Ionicons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import React from 'react';
 import {
   Pressable,
@@ -83,8 +83,8 @@ export const ListItem = ({
         )}
         {rightIcon}
         {showChevron && !rightIcon && (
-          <Ionicons
-            name="chevron-forward"
+          <Feather
+            name="chevron-right"
             size={20}
             color={theme.colors.textTertiary}
           />

@@ -1,5 +1,5 @@
 import { useTheme } from '@/hooks/useTheme';
-import { Ionicons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import React, { useRef, useState } from 'react';
 import {
   TextInput as NativeTextInput,
@@ -194,8 +194,8 @@ export const PasswordInput = (props: InputProps) => {
       {...props}
       rightIcon={
         <Pressable onPress={() => setShowPassword(!showPassword)}>
-          <Ionicons
-            name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+          <Feather
+            name={showPassword ? 'eye-off' : 'eye'}
             size={20}
             color={theme.colors.textSecondary}
           />

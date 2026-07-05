@@ -1,6 +1,6 @@
 import { Card, Typography } from '@/components';
 import { useTheme } from '@/hooks';
-import { Ionicons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -62,7 +62,7 @@ export const DailyTotalCard = ({
               },
             ]}
           >
-            <Ionicons
+            <Feather
               name={isPositiveDiff ? 'trending-up' : 'trending-down'}
               size={12}
               color={diffColor}

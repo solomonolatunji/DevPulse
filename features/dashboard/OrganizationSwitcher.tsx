@@ -2,7 +2,7 @@ import { BottomSheet, ListItem, Typography } from '@/components';
 import { useTheme } from '@/hooks';
 import { WakaTimeOrganization } from '@/interfaces/organization';
 import { useOrganizationStore } from '@/stores/useOrganizationStore';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import React, { useCallback, useRef } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -49,7 +49,7 @@ export function OrganizationSwitcher() {
         >
           {currentName}
         </Typography>
-        <Ionicons
+        <Feather
           name="chevron-down"
           size={14}
           color={theme.colors.textSecondary}

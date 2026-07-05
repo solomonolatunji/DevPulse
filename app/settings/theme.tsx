@@ -1,7 +1,7 @@
 import { Card, ScreenHeader, Typography } from '@/components';
 import { ACCENT_COLORS } from '@/constants';
 import { useTheme } from '@/hooks';
-import { Feather } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

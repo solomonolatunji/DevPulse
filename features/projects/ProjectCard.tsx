@@ -3,7 +3,7 @@ import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
 import { WakaTimeProject } from '@/interfaces/project';
 import { commonStyles } from '@/theme';
-import { Feather } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';

@@ -1,6 +1,6 @@
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
-import { Ionicons } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -22,7 +22,7 @@ export const DashboardBanner = () => {
           Tap for detailed analytics & charts
         </Typography>
       </View>
-      <Ionicons name="chevron-forward" size={20} color={theme.colors.primary} />
+      <Feather name="chevron-right" size={20} color={theme.colors.primary} />
     </TouchableOpacity>
   );
 };

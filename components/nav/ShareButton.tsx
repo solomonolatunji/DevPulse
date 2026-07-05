@@ -1,5 +1,5 @@
 import { useTheme } from '@/hooks/useTheme';
-import { Feather } from '@expo/vector-icons';
+import Feather from '@react-native-vector-icons/feather/static';
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
