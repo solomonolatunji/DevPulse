@@ -31,7 +31,9 @@ export const TopThreePodium = ({
     return [users[1], users[0], users[2]].filter(Boolean);
   }, [users]);
 
-  if (displayTopThree.length === 0) return null;
+  if (displayTopThree.length === 0) {
+    return <View />;
+  }
 
   return (
     <View style={styles.podiumContainer}>

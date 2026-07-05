@@ -18,6 +18,32 @@ const formatAILines = (lines?: number) => {
   return `${lines.toLocaleString()} AI lines`;
 };
 
+const styles = StyleSheet.create({
+  userCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    marginBottom: 8,
+    borderRadius: 12,
+  },
+  rankContainer: {
+    width: 40,
+    ...commonStyles.center,
+  },
+  userInfo: {
+    flex: 1,
+    minWidth: 0,
+  },
+  nameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  nameText: {
+    flex: 1,
+    minWidth: 0,
+  },
+});
+
 export const LeaderboardItem = ({
   item,
   highlight = false,
@@ -25,32 +51,6 @@ export const LeaderboardItem = ({
 }: LeaderboardItemProps) => {
   const { theme } = useTheme();
   const router = useRouter();
-
-  const styles = StyleSheet.create({
-    userCard: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: theme.spacing[3],
-      marginBottom: theme.spacing[2],
-      borderRadius: theme.tokens.borderRadius.md,
-    },
-    rankContainer: {
-      width: 40,
-      ...commonStyles.center,
-    },
-    userInfo: {
-      flex: 1,
-      minWidth: 0,
-    },
-    nameRow: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    nameText: {
-      flex: 1,
-      minWidth: 0,
-    },
-  });
 
   return (
     <TouchableOpacity

@@ -20,6 +20,7 @@ import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   RefreshControl,
   TouchableOpacity,
   View,
@@ -100,6 +101,16 @@ export default function LeaderboardScreen() {
   );
   const canShareLeaderboard =
     !selectedOrganization && leaderboardData.length > 0;
+
+  const stickyHeaderIndices = React.useMemo(
+    () => (shouldShowCurrentUserSticky ? [0] : undefined),
+    [shouldShowCurrentUserSticky],
+  );
+
+  const listHeader = React.useMemo(
+    () => <TopThreePodium users={topThree} boardType={boardType} />,
+    [topThree, boardType],
+  );
 
   const handlePresentModalPress = React.useCallback(() => {
     bottomSheetRef.current?.present();
@@ -288,6 +299,7 @@ export default function LeaderboardScreen() {
       </View>
 
       <FlatList
+        key={boardType}
         data={listData}
         renderItem={({ item }) =>
           item.type === 'current-user' ? (
@@ -308,10 +320,9 @@ export default function LeaderboardScreen() {
           styles.listContent,
           { paddingBottom: styles.listContent.paddingBottom },
         ]}
-        ListHeaderComponent={
-          <TopThreePodium users={topThree} boardType={boardType} />
-        }
-        stickyHeaderIndices={shouldShowCurrentUserSticky ? [1] : undefined}
+        ListHeaderComponent={listHeader}
+        stickyHeaderIndices={stickyHeaderIndices}
+        removeClippedSubviews={Platform.OS === 'android' ? false : undefined}
         ListFooterComponent={
           isFetchingNextPage ? (
             <View style={styles.footerLoader}>
