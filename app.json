@@ -112,7 +112,8 @@
           "organization": "velox-x4",
           "project": "devpulse-mobile"
         }
-      ]
+      ],
+      "expo-status-bar"
     ],
     "experiments": {
       "typedRoutes": true,
