@@ -26,6 +26,8 @@ interface LeaderboardContextType {
   countries: typeof COUNTRIES;
   userCountry: string | undefined;
   isOrganizationLeaderboardAvailable: boolean;
+  boardType: 'time' | 'ai';
+  setBoardType: (type: 'time' | 'ai') => void;
 }
 
 const LeaderboardContext = createContext<LeaderboardContextType | undefined>(
@@ -61,6 +63,8 @@ export function LeaderboardProvider({
     fetchNextPage,
     isFetchingNextPage,
     isOrganizationLeaderboardAvailable,
+    boardType,
+    setBoardType,
   } = useLeaderboard();
 
   const leaderboardData = useMemo(
@@ -83,6 +87,8 @@ export function LeaderboardProvider({
     countries: COUNTRIES,
     userCountry,
     isOrganizationLeaderboardAvailable,
+    boardType,
+    setBoardType,
   };
 
   return (

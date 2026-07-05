@@ -9,9 +9,19 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface TopThreePodiumProps {
   users: LeaderboardUser[];
+  boardType?: 'time' | 'ai';
 }
 
-export const TopThreePodium = ({ users }: TopThreePodiumProps) => {
+const formatAILines = (lines?: number) => {
+  if (!lines) return '0 AI';
+  if (lines >= 1000) return `${(lines / 1000).toFixed(1)}K AI`;
+  return `${lines.toLocaleString()} AI`;
+};
+
+export const TopThreePodium = ({
+  users,
+  boardType = 'time',
+}: TopThreePodiumProps) => {
   const { theme, isDark } = useTheme();
   const router = useRouter();
 
@@ -124,9 +134,11 @@ export const TopThreePodium = ({ users }: TopThreePodiumProps) => {
                 numberOfLines={1}
                 style={styles.totalText}
               >
-                {user.running_total.human_readable_total
-                  .replace('hrs', 'h')
-                  .replace('mins', 'm')}
+                {boardType === 'ai'
+                  ? formatAILines(user.running_total.ai_line_changes_total)
+                  : user.running_total.human_readable_total
+                      .replace('hrs', 'h')
+                      .replace('mins', 'm')}
               </Typography>
             </View>
 

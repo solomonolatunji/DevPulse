@@ -4,7 +4,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useUser } from './useUser';
 
 export function useLeaderboard() {
-  const { selectedCountry } = useLeaderboardStore();
+  const { selectedCountry, boardType } = useLeaderboardStore();
   const { selectedOrganization } = useOrganizationStore();
   const { data: user } = useUser();
   const orgId = selectedOrganization?.id;
@@ -14,9 +14,9 @@ export function useLeaderboard() {
   const userCountry = user?.data?.city?.country_code;
 
   const leaderboardQuery = useInfiniteQuery({
-    queryKey: ['leaderboard', selectedCountry, orgId],
+    queryKey: ['leaderboard', selectedCountry, boardType, orgId],
     queryFn: ({ pageParam = 1 }) =>
-      wakaService.getLeaderboard(undefined, countryCode, pageParam),
+      wakaService.getLeaderboard(undefined, countryCode, pageParam, boardType),
     enabled: isOrganizationLeaderboardAvailable,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
@@ -30,9 +30,14 @@ export function useLeaderboard() {
   });
 
   const ranksQuery = useQuery({
-    queryKey: ['userRanks', userCountry, orgId],
+    queryKey: ['userRanks', userCountry, boardType, orgId],
     queryFn: async () => {
-      const globalResponse = await wakaService.getLeaderboard();
+      const globalResponse = await wakaService.getLeaderboard(
+        undefined,
+        undefined,
+        undefined,
+        boardType,
+      );
       const globalRank = globalResponse.current_user?.rank;
 
       let countryResponse = undefined;
@@ -41,6 +46,8 @@ export function useLeaderboard() {
         countryResponse = await wakaService.getLeaderboard(
           undefined,
           userCountry,
+          undefined,
+          boardType,
         );
         countryRank = countryResponse.current_user?.rank;
       }
@@ -80,5 +87,7 @@ export function useLeaderboard() {
       : null,
     refetch: leaderboardQuery.refetch,
     fetchNextPage: leaderboardQuery.fetchNextPage,
+    boardType,
+    setBoardType: useLeaderboardStore.getState().setBoardType,
   };
 }

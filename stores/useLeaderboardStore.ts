@@ -5,6 +5,8 @@ import { createJSONStorage, persist } from 'zustand/middleware';
 interface LeaderboardState {
   selectedCountry: string | undefined;
   setSelectedCountry: (country: string | undefined) => void;
+  boardType: 'time' | 'ai';
+  setBoardType: (type: 'time' | 'ai') => void;
 }
 
 export const useLeaderboardStore = create<LeaderboardState>()(
@@ -13,6 +15,10 @@ export const useLeaderboardStore = create<LeaderboardState>()(
       selectedCountry: undefined,
       setSelectedCountry: (country) => {
         set({ selectedCountry: country });
+      },
+      boardType: 'time',
+      setBoardType: (type) => {
+        set({ boardType: type });
       },
     }),
     {

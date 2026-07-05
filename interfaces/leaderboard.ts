@@ -31,6 +31,8 @@ export interface LeaderboardUser {
       name: string;
       total_seconds: number;
     }[];
+    ai_line_changes_total?: number;
+    ai_agent_line_changes?: { [agent: string]: number };
   };
   user: LeaderboardUserProfile;
 }

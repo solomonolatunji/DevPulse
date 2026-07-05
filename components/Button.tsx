@@ -13,12 +13,7 @@ import {
 import { Typography } from './Typography';
 
 type ButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'ghost'
-  | 'destructive'
-  | 'outline'
-  | 'soft';
+  'primary' | 'secondary' | 'ghost' | 'destructive' | 'outline' | 'soft';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends Omit<PressableProps, 'style'> {

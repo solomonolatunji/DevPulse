@@ -9,9 +9,19 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface CurrentUserRankProps {
   mode?: 'overlay' | 'inline';
+  boardType?: 'time' | 'ai';
 }
 
-export const CurrentUserRank = ({ mode = 'overlay' }: CurrentUserRankProps) => {
+const formatAILines = (lines?: number) => {
+  if (!lines) return '0 AI lines';
+  if (lines >= 1000) return `${(lines / 1000).toFixed(1)}K AI lines`;
+  return `${lines.toLocaleString()} AI lines`;
+};
+
+export const CurrentUserRank = ({
+  mode = 'overlay',
+  boardType = 'time',
+}: CurrentUserRankProps) => {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
   const { currentUserRank, userCountry, selectedCountry, userRanks } =
@@ -30,8 +40,11 @@ export const CurrentUserRank = ({ mode = 'overlay' }: CurrentUserRankProps) => {
       : undefined;
   const displayRank = currentUserRank?.rank ?? fallbackRank;
   const displayUser = currentUserRank?.user ?? user?.data;
+  const aiLines = weeklyStats?.data?.ai_line_changes_total;
   const displayTotal =
-    weeklyStats?.data.human_readable_total || 'No time logged';
+    boardType === 'ai'
+      ? formatAILines(aiLines)
+      : weeklyStats?.data.human_readable_total || 'No time logged';
   const rankLabel = displayRank != null ? `#${displayRank}` : '#';
   const statusText =
     displayRank != null

@@ -87,11 +87,13 @@ export const wakaService = {
     language?: string,
     countryCode?: string,
     page?: number,
+    boardType?: 'time' | 'ai',
   ): Promise<WakaTimeLeaderboard> => {
     const params = new URLSearchParams();
     if (language) params.append('language', language);
     if (countryCode) params.append('country_code', countryCode);
     if (page) params.append('page', page.toString());
+    if (boardType) params.append('board_type', boardType);
 
     const queryString = params.toString() ? `?${params.toString()}` : '';
     return fetchWithAuth<WakaTimeLeaderboard>(`/leaders${queryString}`);

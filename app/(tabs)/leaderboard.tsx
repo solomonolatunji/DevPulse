@@ -51,6 +51,8 @@ export default function LeaderboardScreen() {
     countries,
     userCountry,
     isOrganizationLeaderboardAvailable,
+    boardType,
+    setBoardType,
   } = useLeaderboardContext();
 
   const topThree = React.useMemo(
@@ -222,11 +224,74 @@ export default function LeaderboardScreen() {
         />
       ) : null}
 
+      {/* Board type toggle */}
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingHorizontal: 16,
+          paddingVertical: 8,
+          gap: 8,
+        }}
+      >
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => setBoardType('time')}
+          style={{
+            flex: 1,
+            paddingVertical: 10,
+            borderRadius: 8,
+            backgroundColor:
+              boardType === 'time'
+                ? theme.colors.primary
+                : theme.colors.surface,
+            alignItems: 'center',
+          }}
+        >
+          <Typography
+            variant="caption"
+            weight="bold"
+            color={
+              boardType === 'time'
+                ? theme.colors.primaryForeground
+                : theme.colors.textSecondary
+            }
+            style={{ letterSpacing: 0.5 }}
+          >
+            HOURS CODED
+          </Typography>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => setBoardType('ai')}
+          style={{
+            flex: 1,
+            paddingVertical: 10,
+            borderRadius: 8,
+            backgroundColor:
+              boardType === 'ai' ? theme.colors.primary : theme.colors.surface,
+            alignItems: 'center',
+          }}
+        >
+          <Typography
+            variant="caption"
+            weight="bold"
+            color={
+              boardType === 'ai'
+                ? theme.colors.primaryForeground
+                : theme.colors.textSecondary
+            }
+            style={{ letterSpacing: 0.5 }}
+          >
+            AI LINES
+          </Typography>
+        </TouchableOpacity>
+      </View>
+
       <FlatList
         data={listData}
         renderItem={({ item }) =>
           item.type === 'current-user' ? (
-            <CurrentUserRank mode="inline" />
+            <CurrentUserRank mode="inline" boardType={boardType} />
           ) : (
             <LeaderboardItem
               item={item.user}
@@ -234,6 +299,7 @@ export default function LeaderboardScreen() {
                 highlightCurrentUserInline &&
                 item.user.user.id === currentUserId
               }
+              boardType={boardType}
             />
           )
         }
@@ -242,7 +308,9 @@ export default function LeaderboardScreen() {
           styles.listContent,
           { paddingBottom: styles.listContent.paddingBottom },
         ]}
-        ListHeaderComponent={<TopThreePodium users={topThree} />}
+        ListHeaderComponent={
+          <TopThreePodium users={topThree} boardType={boardType} />
+        }
         stickyHeaderIndices={shouldShowCurrentUserSticky ? [1] : undefined}
         ListFooterComponent={
           isFetchingNextPage ? (

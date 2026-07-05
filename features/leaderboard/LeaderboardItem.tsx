@@ -9,11 +9,19 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 interface LeaderboardItemProps {
   item: LeaderboardUser;
   highlight?: boolean;
+  boardType?: 'time' | 'ai';
 }
+
+const formatAILines = (lines?: number) => {
+  if (!lines) return '0 AI lines';
+  if (lines >= 1000) return `${(lines / 1000).toFixed(1)}K AI lines`;
+  return `${lines.toLocaleString()} AI lines`;
+};
 
 export const LeaderboardItem = ({
   item,
   highlight = false,
+  boardType = 'time',
 }: LeaderboardItemProps) => {
   const { theme } = useTheme();
   const router = useRouter();
@@ -102,7 +110,9 @@ export const LeaderboardItem = ({
             color={theme.colors.textSecondary}
             numberOfLines={1}
           >
-            {item.running_total.human_readable_total}
+            {boardType === 'ai'
+              ? formatAILines(item.running_total.ai_line_changes_total)
+              : item.running_total.human_readable_total}
           </Typography>
         </View>
       </Card>
