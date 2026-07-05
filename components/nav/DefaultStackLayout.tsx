@@ -1,6 +1,5 @@
 import { useTheme } from '@/hooks/useTheme';
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
-import { Stack } from 'expo-router';
+import { Stack, type NativeStackNavigationOptions } from 'expo-router';
 
 interface DefaultStackLayoutProps {
   children: React.ReactNode;
