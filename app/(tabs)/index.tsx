@@ -1,10 +1,5 @@
 import { DashboardSkeleton } from '@/components/skeletons';
 import {
-  WakaTimeLanguage,
-  WakaTimeSummary,
-  WakaTimeSummaryItem,
-} from '@/interfaces';
-import {
   BestDayCard,
   DailyProgressCard,
   DashboardHeader,
@@ -22,6 +17,11 @@ import {
   useUser,
   useWidgetSync,
 } from '@/hooks';
+import {
+  WakaTimeLanguage,
+  WakaTimeSummary,
+  WakaTimeSummaryItem,
+} from '@/interfaces';
 import { useOrganizationStore } from '@/stores';
 import { dashboardStyles as styles } from '@/theme/styles/dashboard';
 import {
@@ -31,13 +31,8 @@ import {
 } from '@/utilities';
 import { getProjectColor } from '@/utilities/projectColors';
 import { endOfMonth, format, startOfMonth } from 'date-fns';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useRouter } from 'expo-router';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AppState,
   AppStateStatus,
@@ -51,6 +46,7 @@ export default function Dashboard() {
   const { isLoading: userLoading } = useUser();
   const { getLanguageColor } = useMetadata();
   const { selectedOrganization } = useOrganizationStore();
+  const router = useRouter();
 
   const {
     data: allTimeData,
@@ -321,6 +317,7 @@ export default function Dashboard() {
             promptEvents={stats.data.ai_prompt_events_total}
             promptLengthAvg={stats.data.ai_prompt_length_avg}
             lineChangesTotal={stats.data.ai_line_changes_total}
+            onViewMore={() => router.push('/stats/ai')}
           />
         )}
         <MonthlyCalendarCard

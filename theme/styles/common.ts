@@ -22,7 +22,7 @@ export const commonStyles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   absoluteFill: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
   },
   cardShadow: {
     shadowColor: '#000',

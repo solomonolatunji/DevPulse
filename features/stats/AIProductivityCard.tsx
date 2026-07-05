@@ -1,4 +1,4 @@
-import { Card, Typography } from '@/components';
+import { Button, Card, Typography } from '@/components';
 import { WakaTimeAIAgentBreakdown } from '@/interfaces';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -16,6 +16,7 @@ interface AIProductivityCardProps {
   promptEvents?: number;
   promptLengthAvg?: number;
   lineChangesTotal?: number;
+  onViewMore?: () => void;
 }
 
 const formatCost = (cost: number): string => {
@@ -42,6 +43,7 @@ export const AIProductivityCard = ({
   promptEvents,
   promptLengthAvg,
   lineChangesTotal,
+  onViewMore,
 }: AIProductivityCardProps) => {
   const totalAdditions = aiAdditions + humanAdditions;
   const aiAddPercent =
@@ -241,6 +243,18 @@ export const AIProductivityCard = ({
             )}
           </View>
         </View>
+      )}
+
+      {onViewMore && (
+        <Button
+          label="VIEW AI INSIGHTS"
+          onPress={onViewMore}
+          variant="soft"
+          fullWidth
+          style={{ marginTop: 16 }}
+          labelStyle={{ fontSize: 10, letterSpacing: 0.5 }}
+          size="sm"
+        />
       )}
     </Card>
   );

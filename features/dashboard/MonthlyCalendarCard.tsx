@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   activityBackground: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     borderRadius: 16,
     opacity: 0.5,
   },

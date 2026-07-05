@@ -7,6 +7,7 @@ export default function StatsLayout() {
       <Stack.Screen name="numbers" />
       <Stack.Screen name="daily" />
       <Stack.Screen name="sessions" />
+      <Stack.Screen name="ai" />
     </DefaultStackLayout>
   );
 }
