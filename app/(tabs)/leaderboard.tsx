@@ -7,6 +7,7 @@ import { CurrentUserRank, LeaderboardItem, TopThreePodium } from '@/features';
 import {
   getRemainingLeaderboardUsers,
   isCurrentUserInTopThree,
+  isLeaderboardScopeOwnedByCurrentUser,
   shouldHighlightInlineCurrentUser,
   shouldShowStickyCurrentUserRow,
 } from '@/features/leaderboard/rules';
@@ -83,6 +84,12 @@ export default function LeaderboardScreen() {
     userCountry,
     topThree,
   });
+  const shouldShowCurrentUserCard =
+    !selectedOrganization &&
+    !!currentUserId &&
+    !currentUserInTopThree &&
+    (shouldShowCurrentUserSticky || currentUserRankValue == null) &&
+    isLeaderboardScopeOwnedByCurrentUser(selectedCountry, userCountry);
   const remainingUsers = React.useMemo(
     () => getRemainingLeaderboardUsers(leaderboardData),
     [leaderboardData],
@@ -92,7 +99,7 @@ export default function LeaderboardScreen() {
     if (leaderboardData.length > 0) {
       items.push({ type: 'podium', key: 'podium' });
     }
-    if (shouldShowCurrentUserSticky) {
+    if (shouldShowCurrentUserCard) {
       items.push({ type: 'current-user', key: 'current-user' });
     }
     for (const leader of remainingUsers) {
@@ -103,14 +110,19 @@ export default function LeaderboardScreen() {
       });
     }
     return items;
-  }, [leaderboardData.length, remainingUsers, shouldShowCurrentUserSticky]);
+  }, [leaderboardData.length, remainingUsers, shouldShowCurrentUserCard]);
   const canShareLeaderboard =
     !selectedOrganization && leaderboardData.length > 0;
 
   const stickyHeaderIndices = React.useMemo(() => {
-    if (!shouldShowCurrentUserSticky) return undefined;
+    if (!shouldShowCurrentUserCard || !shouldShowCurrentUserSticky)
+      return undefined;
     return [leaderboardData.length > 0 ? 1 : 0];
-  }, [shouldShowCurrentUserSticky, leaderboardData.length]);
+  }, [
+    shouldShowCurrentUserCard,
+    shouldShowCurrentUserSticky,
+    leaderboardData.length,
+  ]);
 
   const handlePresentModalPress = React.useCallback(() => {
     bottomSheetRef.current?.present();

@@ -30,13 +30,13 @@ export function useLeaderboard() {
   });
 
   const ranksQuery = useQuery({
-    queryKey: ['userRanks', userCountry, boardType, orgId],
+    queryKey: ['userRanksTimeBase', userCountry, orgId],
     queryFn: async () => {
       const globalResponse = await wakaService.getLeaderboard(
         undefined,
         undefined,
         undefined,
-        boardType,
+        undefined,
       );
       const globalRank = globalResponse.current_user?.rank;
 
@@ -47,7 +47,7 @@ export function useLeaderboard() {
           undefined,
           userCountry,
           undefined,
-          boardType,
+          undefined,
         );
         countryRank = countryResponse.current_user?.rank;
       }
