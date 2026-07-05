@@ -27,6 +27,7 @@ import {
 } from 'react-native';
 
 type LeaderboardListItem =
+  | { type: 'podium'; key: 'podium' }
   | { type: 'current-user'; key: 'current-user' }
   | { type: 'leader'; key: string; user: LeaderboardUser };
 
@@ -86,31 +87,30 @@ export default function LeaderboardScreen() {
     () => getRemainingLeaderboardUsers(leaderboardData),
     [leaderboardData],
   );
-  const listData = React.useMemo<LeaderboardListItem[]>(
-    () => [
-      ...(shouldShowCurrentUserSticky
-        ? [{ type: 'current-user', key: 'current-user' } as const]
-        : []),
-      ...remainingUsers.map((leader) => ({
+  const listData = React.useMemo<LeaderboardListItem[]>(() => {
+    const items: LeaderboardListItem[] = [];
+    if (leaderboardData.length > 0) {
+      items.push({ type: 'podium', key: 'podium' });
+    }
+    if (shouldShowCurrentUserSticky) {
+      items.push({ type: 'current-user', key: 'current-user' });
+    }
+    for (const leader of remainingUsers) {
+      items.push({
         type: 'leader' as const,
         key: leader.user.id,
         user: leader,
-      })),
-    ],
-    [remainingUsers, shouldShowCurrentUserSticky],
-  );
+      });
+    }
+    return items;
+  }, [leaderboardData.length, remainingUsers, shouldShowCurrentUserSticky]);
   const canShareLeaderboard =
     !selectedOrganization && leaderboardData.length > 0;
 
-  const stickyHeaderIndices = React.useMemo(
-    () => (shouldShowCurrentUserSticky ? [0] : undefined),
-    [shouldShowCurrentUserSticky],
-  );
-
-  const listHeader = React.useMemo(
-    () => <TopThreePodium users={topThree} boardType={boardType} />,
-    [topThree, boardType],
-  );
+  const stickyHeaderIndices = React.useMemo(() => {
+    if (!shouldShowCurrentUserSticky) return undefined;
+    return [leaderboardData.length > 0 ? 1 : 0];
+  }, [shouldShowCurrentUserSticky, leaderboardData.length]);
 
   const handlePresentModalPress = React.useCallback(() => {
     bottomSheetRef.current?.present();
@@ -301,10 +301,14 @@ export default function LeaderboardScreen() {
       <FlatList
         key={boardType}
         data={listData}
-        renderItem={({ item }) =>
-          item.type === 'current-user' ? (
-            <CurrentUserRank mode="inline" boardType={boardType} />
-          ) : (
+        renderItem={({ item }) => {
+          if (item.type === 'podium') {
+            return <TopThreePodium users={topThree} boardType={boardType} />;
+          }
+          if (item.type === 'current-user') {
+            return <CurrentUserRank mode="inline" boardType={boardType} />;
+          }
+          return (
             <LeaderboardItem
               item={item.user}
               highlight={
@@ -313,14 +317,13 @@ export default function LeaderboardScreen() {
               }
               boardType={boardType}
             />
-          )
-        }
+          );
+        }}
         keyExtractor={(item) => item.key}
         contentContainerStyle={[
           styles.listContent,
           { paddingBottom: styles.listContent.paddingBottom },
         ]}
-        ListHeaderComponent={listHeader}
         stickyHeaderIndices={stickyHeaderIndices}
         removeClippedSubviews={Platform.OS === 'android' ? false : undefined}
         ListFooterComponent={
