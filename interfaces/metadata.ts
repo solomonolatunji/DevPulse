@@ -28,9 +28,18 @@ export interface WakaTimeHeartbeat {
   project: string;
   language: string | null;
   is_ai: boolean;
-  ai_line_changes: number;
-  human_line_changes: number;
+  ai_line_changes?: number | null;
+  human_line_changes?: number | null;
+  ai_input_tokens?: number;
+  ai_output_tokens?: number;
+  ai_prompt_length?: number;
+  ai_session?: string;
+  ai_subscription_plan?: string | null;
   time: number;
+  lines?: number;
+  lineno?: number;
+  cursorpos?: number;
+  is_write?: boolean;
 }
 
 export interface WakaTimeHeartbeatsResponse {

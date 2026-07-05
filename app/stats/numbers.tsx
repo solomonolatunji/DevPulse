@@ -242,6 +242,14 @@ export default function NumbersScreen() {
             aiDeletions={stats.data.ai_deletions || 0}
             humanAdditions={stats.data.human_additions || 0}
             humanDeletions={stats.data.human_deletions || 0}
+            agentBreakdown={stats.data.ai_agent_breakdown}
+            agentTotalCost={stats.data.ai_agent_total_cost}
+            inputTokens={stats.data.ai_input_tokens}
+            outputTokens={stats.data.ai_output_tokens}
+            sessions={stats.data.ai_sessions}
+            promptEvents={stats.data.ai_prompt_events_total}
+            promptLengthAvg={stats.data.ai_prompt_length_avg}
+            lineChangesTotal={stats.data.ai_line_changes_total}
           />
         )}
       </ScrollView>

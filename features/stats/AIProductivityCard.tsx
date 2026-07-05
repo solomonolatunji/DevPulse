@@ -1,4 +1,5 @@
 import { Card, Typography } from '@/components';
+import { WakaTimeAIAgentBreakdown } from '@/interfaces';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -7,19 +8,50 @@ interface AIProductivityCardProps {
   aiDeletions: number;
   humanAdditions: number;
   humanDeletions: number;
+  agentBreakdown?: WakaTimeAIAgentBreakdown[];
+  agentTotalCost?: number;
+  inputTokens?: number;
+  outputTokens?: number;
+  sessions?: number;
+  promptEvents?: number;
+  promptLengthAvg?: number;
+  lineChangesTotal?: number;
 }
+
+const formatCost = (cost: number): string => {
+  if (cost < 0.01) return '$0.00';
+  return `$${cost.toFixed(2)}`;
+};
+
+const formatTokens = (tokens: number): string => {
+  if (tokens >= 1_000_000) return `${(tokens / 1_000_000).toFixed(1)}M`;
+  if (tokens >= 1_000) return `${(tokens / 1_000).toFixed(1)}K`;
+  return tokens.toLocaleString();
+};
 
 export const AIProductivityCard = ({
   aiAdditions,
   aiDeletions,
   humanAdditions,
   humanDeletions,
+  agentBreakdown,
+  agentTotalCost,
+  inputTokens,
+  outputTokens,
+  sessions,
+  promptEvents,
+  promptLengthAvg,
+  lineChangesTotal,
 }: AIProductivityCardProps) => {
   const totalAdditions = aiAdditions + humanAdditions;
   const aiAddPercent =
     totalAdditions > 0 ? (aiAdditions / totalAdditions) * 100 : 0;
   const humanAddPercent =
     totalAdditions > 0 ? (humanAdditions / totalAdditions) * 100 : 100;
+  const hasAgentData =
+    agentBreakdown && agentBreakdown.length > 0 && agentTotalCost !== undefined;
+  const hasTokenData = inputTokens !== undefined || outputTokens !== undefined;
+  const hasSessionData = sessions !== undefined || promptEvents !== undefined;
 
   return (
     <Card style={styles.container}>
@@ -95,6 +127,121 @@ export const AIProductivityCard = ({
           Manual Typing: {humanAddPercent.toFixed(1)}%
         </Typography>
       </View>
+
+      {(hasAgentData || hasTokenData || hasSessionData) && (
+        <View style={styles.extendedSection}>
+          {hasAgentData && (
+            <View style={styles.agentSection}>
+              <Typography
+                variant="caption"
+                color="gray"
+                style={styles.subsectionTitle}
+              >
+                AI AGENT BREAKDOWN
+              </Typography>
+              {agentBreakdown.map((agent, index) => (
+                <View key={index} style={styles.agentRow}>
+                  <Typography variant="caption" numberOfLines={1}>
+                    {agent.name}
+                  </Typography>
+                  <Typography variant="caption">
+                    {agent.lines} lines · {formatCost(agent.cost)}
+                  </Typography>
+                </View>
+              ))}
+              <View style={styles.agentTotalRow}>
+                <Typography variant="caption" weight="bold">
+                  Total
+                </Typography>
+                <Typography variant="caption" weight="bold">
+                  {lineChangesTotal !== undefined
+                    ? `${lineChangesTotal} lines · `
+                    : ''}
+                  {formatCost(agentTotalCost!)}
+                </Typography>
+              </View>
+            </View>
+          )}
+
+          <View style={styles.metricsGrid}>
+            {hasTokenData && (
+              <View style={styles.metricTile}>
+                <Typography variant="caption" color="gray">
+                  INPUT TOKENS
+                </Typography>
+                <Typography
+                  variant="title"
+                  weight="bold"
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                >
+                  {formatTokens(inputTokens || 0)}
+                </Typography>
+              </View>
+            )}
+            {hasTokenData && (
+              <View style={styles.metricTile}>
+                <Typography variant="caption" color="gray">
+                  OUTPUT TOKENS
+                </Typography>
+                <Typography
+                  variant="title"
+                  weight="bold"
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                >
+                  {formatTokens(outputTokens || 0)}
+                </Typography>
+              </View>
+            )}
+            {sessions !== undefined && (
+              <View style={styles.metricTile}>
+                <Typography variant="caption" color="gray">
+                  AI SESSIONS
+                </Typography>
+                <Typography
+                  variant="title"
+                  weight="bold"
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                >
+                  {sessions}
+                </Typography>
+              </View>
+            )}
+            {promptEvents !== undefined && (
+              <View style={styles.metricTile}>
+                <Typography variant="caption" color="gray">
+                  PROMPTS
+                </Typography>
+                <Typography
+                  variant="title"
+                  weight="bold"
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                >
+                  {promptEvents}
+                </Typography>
+              </View>
+            )}
+            {promptLengthAvg !== undefined && (
+              <View style={styles.metricTile}>
+                <Typography variant="caption" color="gray">
+                  AVG PROMPT LENGTH
+                </Typography>
+                <Typography
+                  variant="title"
+                  weight="bold"
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                >
+                  {promptLengthAvg}
+                </Typography>
+              </View>
+            )}
+          </View>
+        </View>
+      )}
     </Card>
   );
 };
@@ -139,5 +286,45 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  extendedSection: {
+    marginTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#E2E8F0',
+    paddingTop: 16,
+  },
+  subsectionTitle: {
+    marginBottom: 8,
+    fontSize: 11,
+    letterSpacing: 1,
+  },
+  agentSection: {
+    marginBottom: 16,
+  },
+  agentRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 4,
+  },
+  agentTotalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 6,
+    borderTopWidth: 1,
+    borderTopColor: '#F1F5F9',
+    marginTop: 4,
+  },
+  metricsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  metricTile: {
+    flex: 1,
+    minWidth: '45%',
+    backgroundColor: '#F8FAFC',
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center',
   },
 });

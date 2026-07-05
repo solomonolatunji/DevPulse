@@ -9,14 +9,24 @@ export interface WakaTimeSummaryItem {
   color?: string;
 }
 
+export interface WakaTimeSummaryGrandTotal {
+  digital: string;
+  hours: number;
+  minutes: number;
+  text: string;
+  total_seconds: number;
+  ai_prompt_length_avg?: number;
+  ai_prompt_length_avg_per_session?: number;
+  ai_prompt_length_median_per_session?: number;
+  ai_prompt_length_sum?: number;
+  ai_prompt_events_total?: number;
+  ai_prompt_events_avg_per_session?: number;
+  ai_prompt_events_median_per_session?: number;
+  ai_sessions?: number;
+}
+
 export interface WakaTimeSummary {
-  grand_total: {
-    digital: string;
-    hours: number;
-    minutes: number;
-    text: string;
-    total_seconds: number;
-  };
+  grand_total: WakaTimeSummaryGrandTotal;
   range: {
     date: string;
     start: string;

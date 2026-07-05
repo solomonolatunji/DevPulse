@@ -24,7 +24,7 @@ export const TotalTimeCard = ({
   totalProjectsCount,
   recentProjects,
 }: TotalTimeCardProps) => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const router = useRouter();
 
   const styles = StyleSheet.create({
@@ -138,7 +138,6 @@ export const TotalTimeCard = ({
           labelStyle={{
             fontSize: 10,
             letterSpacing: 0.5,
-            color: isDark ? theme.colors.text : theme.colors.textInverse,
           }}
           size="sm"
         />

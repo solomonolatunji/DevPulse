@@ -1,10 +1,13 @@
 import {
   User,
   WakaTimeAllTime,
+  WakaTimeCommitsResponse,
   WakaTimeDurationsResponse,
   WakaTimeGoal,
   WakaTimeGoalsResponse,
   WakaTimeHeartbeatsResponse,
+  WakaTimeInsight,
+  WakaTimeInsightType,
   WakaTimeLeaderboard,
   WakaTimeMachinesResponse,
   WakaTimeMetadataResponse,
@@ -125,4 +128,29 @@ export const wakaService = {
     fetchWithAuth<WakaTimeStats>(
       `/users/current/organizations/${orgId}/stats/${range}`,
     ),
+
+  getInsight: <T = unknown>(
+    insightType: WakaTimeInsightType,
+    range: string,
+  ): Promise<WakaTimeInsight<T>> =>
+    fetchWithAuth<WakaTimeInsight<T>>(
+      `/users/current/insights/${insightType}/${range}`,
+    ),
+
+  getProjectCommits: (
+    projectName: string,
+    page?: number,
+    author?: string,
+    branch?: string,
+  ): Promise<WakaTimeCommitsResponse> => {
+    const params = new URLSearchParams();
+    if (page) params.append('page', page.toString());
+    if (author) params.append('author', author);
+    if (branch) params.append('branch', branch);
+
+    const queryString = params.toString() ? `?${params.toString()}` : '';
+    return fetchWithAuth<WakaTimeCommitsResponse>(
+      `/users/current/projects/${encodeURIComponent(projectName)}/commits${queryString}`,
+    );
+  },
 };

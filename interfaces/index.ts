@@ -7,3 +7,5 @@ export * from './project';
 export * from './stats';
 export * from './summary';
 export * from './user';
+export * from './insights';
+export * from './commit';

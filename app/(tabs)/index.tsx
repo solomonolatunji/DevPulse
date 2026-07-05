@@ -12,6 +12,7 @@ import {
   RankPulseCard,
   TotalTimeCard,
 } from '@/features';
+import { AIProductivityCard } from '@/features/stats';
 import {
   useAllTime,
   useMetadata,
@@ -306,6 +307,22 @@ export default function Dashboard() {
           dailyAverage={dailyAverage}
           topProject={stats?.data?.projects?.[0]}
         />
+        {stats?.data?.ai_additions !== undefined && (
+          <AIProductivityCard
+            aiAdditions={stats.data.ai_additions || 0}
+            aiDeletions={stats.data.ai_deletions || 0}
+            humanAdditions={stats.data.human_additions || 0}
+            humanDeletions={stats.data.human_deletions || 0}
+            agentBreakdown={stats.data.ai_agent_breakdown}
+            agentTotalCost={stats.data.ai_agent_total_cost}
+            inputTokens={stats.data.ai_input_tokens}
+            outputTokens={stats.data.ai_output_tokens}
+            sessions={stats.data.ai_sessions}
+            promptEvents={stats.data.ai_prompt_events_total}
+            promptLengthAvg={stats.data.ai_prompt_length_avg}
+            lineChangesTotal={stats.data.ai_line_changes_total}
+          />
+        )}
         <MonthlyCalendarCard
           monthDate={viewingMonth}
           totalTime={monthTotal}

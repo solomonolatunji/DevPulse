@@ -237,7 +237,6 @@ export const DailyProgressCard = ({
           labelStyle={{
             fontSize: 10,
             letterSpacing: 0.5,
-            color: isDark ? theme.colors.text : theme.colors.textInverse,
           }}
           size="sm"
         />
