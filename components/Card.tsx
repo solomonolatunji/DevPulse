@@ -22,8 +22,11 @@ export const Card = ({
           backgroundColor: theme.colors.surface,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: isDark ? 0.3 : 0.1,
+          shadowOpacity: isDark ? 0.3 : 0.12,
           shadowRadius: 8,
+          elevation: 2,
+          borderWidth: isDark ? 0 : 1,
+          borderColor: theme.colors.border,
         };
       case 'outlined':
         return {
