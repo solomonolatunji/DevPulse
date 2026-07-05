@@ -13,6 +13,7 @@ export const lightTheme = {
     textTertiary: palette.neutral[400],
     textInverse: '#FFFFFF',
     textMuted: palette.neutral[500],
+    onSurface: palette.neutral[700],
 
     primary: palette.brand[600],
     primaryForeground: '#FFFFFF',

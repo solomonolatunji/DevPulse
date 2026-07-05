@@ -6,3 +6,4 @@ export * from './styles';
 export * from './ThemeContext';
 export * from './tokens';
 export * from './typography';
+export { useTheme } from '@/hooks/useTheme';

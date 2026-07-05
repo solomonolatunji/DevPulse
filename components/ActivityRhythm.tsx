@@ -62,17 +62,18 @@ export const ActivityRhythm = ({
         (session.start / (24 * 3600)) * 2 * Math.PI - Math.PI / 2;
       const sweepAngle = (session.duration / (24 * 3600)) * 2 * Math.PI;
 
-      const path = Skia.Path.Make();
-      path.addArc(
-        {
-          x: center - midRadius,
-          y: center - midRadius,
-          width: midRadius * 2,
-          height: midRadius * 2,
-        },
-        (startAngle * 180) / Math.PI,
-        (sweepAngle * 180) / Math.PI,
-      );
+      const path = Skia.PathBuilder.Make()
+        .addArc(
+          {
+            x: center - midRadius,
+            y: center - midRadius,
+            width: midRadius * 2,
+            height: midRadius * 2,
+          },
+          (startAngle * 180) / Math.PI,
+          (sweepAngle * 180) / Math.PI,
+        )
+        .build();
 
       return {
         path,

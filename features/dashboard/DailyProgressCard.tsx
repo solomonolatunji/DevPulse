@@ -87,17 +87,18 @@ export const DailyProgressCard = ({
     const sweepAngle = ((project.percent || 0) / 100) * 2 * Math.PI;
     const drawAngle = Math.max(0, sweepAngle - GAP_ANGLE);
 
-    const path = Skia.Path.Make();
-    path.addArc(
-      {
-        x: center - RADIUS,
-        y: center - RADIUS,
-        width: RADIUS * 2,
-        height: RADIUS * 2,
-      },
-      (currentAngle * 180) / Math.PI,
-      (drawAngle * 180) / Math.PI,
-    );
+    const path = Skia.PathBuilder.Make()
+      .addArc(
+        {
+          x: center - RADIUS,
+          y: center - RADIUS,
+          width: RADIUS * 2,
+          height: RADIUS * 2,
+        },
+        (currentAngle * 180) / Math.PI,
+        (drawAngle * 180) / Math.PI,
+      )
+      .build();
 
     currentAngle += sweepAngle;
 
@@ -107,17 +108,18 @@ export const DailyProgressCard = ({
     };
   });
 
-  const emptyPath = Skia.Path.Make();
-  emptyPath.addArc(
-    {
-      x: center - RADIUS,
-      y: center - RADIUS,
-      width: RADIUS * 2,
-      height: RADIUS * 2,
-    },
-    0,
-    360,
-  );
+  const emptyPath = Skia.PathBuilder.Make()
+    .addArc(
+      {
+        x: center - RADIUS,
+        y: center - RADIUS,
+        width: RADIUS * 2,
+        height: RADIUS * 2,
+      },
+      0,
+      360,
+    )
+    .build();
 
   return (
     <Card

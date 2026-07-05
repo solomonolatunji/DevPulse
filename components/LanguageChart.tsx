@@ -54,18 +54,18 @@ export default function LanguageChart({
     return chartData.map((d) => {
       const sweepAngle = (d.value / totalSeconds) * 2 * Math.PI;
       const drawAngle = Math.max(0, sweepAngle - gapAngle);
-      const path = Skia.Path.Make();
-
-      path.addArc(
-        {
-          x: center - RADIUS,
-          y: center - RADIUS,
-          width: RADIUS * 2,
-          height: RADIUS * 2,
-        },
-        (currentAngle * 180) / Math.PI,
-        (drawAngle * 180) / Math.PI,
-      );
+      const path = Skia.PathBuilder.Make()
+        .addArc(
+          {
+            x: center - RADIUS,
+            y: center - RADIUS,
+            width: RADIUS * 2,
+            height: RADIUS * 2,
+          },
+          (currentAngle * 180) / Math.PI,
+          (drawAngle * 180) / Math.PI,
+        )
+        .build();
 
       currentAngle += sweepAngle;
       return { path, color: d.color };

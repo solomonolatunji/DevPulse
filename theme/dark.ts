@@ -14,6 +14,7 @@ export const darkTheme: Theme = {
     textTertiary: palette.neutral[600],
     textInverse: palette.neutral[900],
     textMuted: palette.neutral[500],
+    onSurface: palette.neutral[300],
 
     primary: palette.brand[400],
     primaryForeground: palette.brand[950],

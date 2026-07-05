@@ -1,4 +1,5 @@
 import { Button, Card, Typography } from '@/components';
+import { useTheme } from '@/hooks';
 import { WakaTimeAIAgentBreakdown } from '@/interfaces';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -45,6 +46,94 @@ export const AIProductivityCard = ({
   lineChangesTotal,
   onViewMore,
 }: AIProductivityCardProps) => {
+  const { theme } = useTheme();
+  const styles = React.useMemo(
+    () =>
+      StyleSheet.create({
+        container: {
+          padding: 20,
+          marginBottom: 16,
+        },
+        title: {
+          marginBottom: 16,
+          fontSize: 14,
+          letterSpacing: 1,
+        },
+        metricsContainer: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 20,
+        },
+        metricItem: {
+          flex: 1,
+          alignItems: 'center',
+        },
+        divider: {
+          width: 1,
+          height: 40,
+          backgroundColor: theme.colors.border,
+          marginHorizontal: 10,
+        },
+        progressContainer: {
+          height: 12,
+          flexDirection: 'row',
+          borderRadius: 6,
+          overflow: 'hidden',
+          backgroundColor: theme.colors.surfaceHighlight,
+          marginBottom: 8,
+        },
+        progressBar: {
+          height: '100%',
+        },
+        row: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        },
+        extendedSection: {
+          marginTop: 20,
+          borderTopWidth: 1,
+          borderTopColor: theme.colors.border,
+          paddingTop: 16,
+        },
+        subsectionTitle: {
+          marginBottom: 8,
+          fontSize: 11,
+          letterSpacing: 1,
+        },
+        agentSection: {
+          marginBottom: 16,
+        },
+        agentRow: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingVertical: 4,
+        },
+        agentTotalRow: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingVertical: 6,
+          borderTopWidth: 1,
+          borderTopColor: theme.colors.border,
+          marginTop: 4,
+        },
+        metricsGrid: {
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: 12,
+        },
+        metricTile: {
+          flex: 1,
+          minWidth: '45%',
+          backgroundColor: theme.colors.surfaceHighlight,
+          borderRadius: 8,
+          padding: 12,
+          alignItems: 'center',
+        },
+      }),
+    [theme.colors.border, theme.colors.surfaceHighlight],
+  );
+
   const totalAdditions = aiAdditions + humanAdditions;
   const aiAddPercent =
     totalAdditions > 0 ? (aiAdditions / totalAdditions) * 100 : 0;
@@ -68,7 +157,7 @@ export const AIProductivityCard = ({
 
       <View style={styles.metricsContainer}>
         <View style={styles.metricItem}>
-          <Typography variant="caption" color="gray">
+          <Typography variant="caption" color={theme.colors.textSecondary}>
             AI CHANGES
           </Typography>
           <Typography
@@ -88,7 +177,7 @@ export const AIProductivityCard = ({
         <View style={styles.divider} />
 
         <View style={styles.metricItem}>
-          <Typography variant="caption" color="gray">
+          <Typography variant="caption" color={theme.colors.textSecondary}>
             HUMAN CHANGES
           </Typography>
           <Typography
@@ -136,7 +225,7 @@ export const AIProductivityCard = ({
             <View style={styles.agentSection}>
               <Typography
                 variant="caption"
-                color="gray"
+                color={theme.colors.textSecondary}
                 style={styles.subsectionTitle}
               >
                 AI AGENT BREAKDOWN
@@ -168,7 +257,10 @@ export const AIProductivityCard = ({
           <View style={styles.metricsGrid}>
             {hasTokenData && (
               <View style={styles.metricTile}>
-                <Typography variant="caption" color="gray">
+                <Typography
+                  variant="caption"
+                  color={theme.colors.textSecondary}
+                >
                   INPUT TOKENS
                 </Typography>
                 <Typography
@@ -183,7 +275,10 @@ export const AIProductivityCard = ({
             )}
             {hasTokenData && (
               <View style={styles.metricTile}>
-                <Typography variant="caption" color="gray">
+                <Typography
+                  variant="caption"
+                  color={theme.colors.textSecondary}
+                >
                   OUTPUT TOKENS
                 </Typography>
                 <Typography
@@ -198,7 +293,10 @@ export const AIProductivityCard = ({
             )}
             {sessions !== undefined && (
               <View style={styles.metricTile}>
-                <Typography variant="caption" color="gray">
+                <Typography
+                  variant="caption"
+                  color={theme.colors.textSecondary}
+                >
                   AI SESSIONS
                 </Typography>
                 <Typography
@@ -213,7 +311,10 @@ export const AIProductivityCard = ({
             )}
             {promptEvents !== undefined && (
               <View style={styles.metricTile}>
-                <Typography variant="caption" color="gray">
+                <Typography
+                  variant="caption"
+                  color={theme.colors.textSecondary}
+                >
                   PROMPTS
                 </Typography>
                 <Typography
@@ -228,7 +329,10 @@ export const AIProductivityCard = ({
             )}
             {promptLengthAvg !== undefined && (
               <View style={styles.metricTile}>
-                <Typography variant="caption" color="gray">
+                <Typography
+                  variant="caption"
+                  color={theme.colors.textSecondary}
+                >
                   AVG PROMPT LENGTH
                 </Typography>
                 <Typography
@@ -259,86 +363,3 @@ export const AIProductivityCard = ({
     </Card>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    marginBottom: 16,
-  },
-  title: {
-    marginBottom: 16,
-    fontSize: 14,
-    letterSpacing: 1,
-  },
-  metricsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  metricItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  divider: {
-    width: 1,
-    height: 40,
-    backgroundColor: '#E2E8F0',
-    marginHorizontal: 10,
-  },
-  progressContainer: {
-    height: 12,
-    flexDirection: 'row',
-    borderRadius: 6,
-    overflow: 'hidden',
-    backgroundColor: '#F1F5F9',
-    marginBottom: 8,
-  },
-  progressBar: {
-    height: '100%',
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  extendedSection: {
-    marginTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#E2E8F0',
-    paddingTop: 16,
-  },
-  subsectionTitle: {
-    marginBottom: 8,
-    fontSize: 11,
-    letterSpacing: 1,
-  },
-  agentSection: {
-    marginBottom: 16,
-  },
-  agentRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 4,
-  },
-  agentTotalRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 6,
-    borderTopWidth: 1,
-    borderTopColor: '#F1F5F9',
-    marginTop: 4,
-  },
-  metricsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  metricTile: {
-    flex: 1,
-    minWidth: '45%',
-    backgroundColor: '#F8FAFC',
-    borderRadius: 8,
-    padding: 12,
-    alignItems: 'center',
-  },
-});
