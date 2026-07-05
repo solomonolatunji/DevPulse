@@ -1,7 +1,7 @@
 import { useShareTheme } from '@/hooks/useShareTheme';
 import { LeaderboardUser } from '@/interfaces/leaderboard';
-import Feather from '@react-native-vector-icons/feather/static';
-import React, { forwardRef } from 'react';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { forwardRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Avatar } from '../Avatar';
 import { Typography } from '../Typography';

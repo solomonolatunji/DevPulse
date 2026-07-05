@@ -1,10 +1,9 @@
 import { Card, Typography } from '@/components';
 import { useTheme } from '@/hooks';
 import { calculatePercentageChange, formatDate } from '@/utilities';
-import Feather from '@react-native-vector-icons/feather/static';
-import MaterialCommunityIcons from '@react-native-vector-icons/material-design-icons/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface BestDayCardProps {
@@ -77,7 +76,7 @@ export const BestDayCard = ({
                 },
               ]}
             />
-            <MaterialCommunityIcons
+            <MaterialDesignIcons
               name="trophy"
               size={32}
               color={isDark ? '#FBBF24' : '#F59E0B'}

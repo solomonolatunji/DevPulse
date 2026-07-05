@@ -3,7 +3,7 @@ import { WEEK_DAYS } from '@/constants';
 import { useTheme } from '@/hooks';
 import { DATE_FORMATS, formatDate } from '@/utilities';
 import { hexToRgba } from '@/utilities/colors';
-import Feather from '@react-native-vector-icons/feather/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import {
   eachDayOfInterval,
   endOfDay,
@@ -16,7 +16,6 @@ import {
   startOfMonth,
 } from 'date-fns';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface DailySummary {

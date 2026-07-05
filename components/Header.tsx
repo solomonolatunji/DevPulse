@@ -1,13 +1,13 @@
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
-import Feather from '@react-native-vector-icons/feather/static';
-import MaterialCommunityIcons from '@react-native-vector-icons/material-design-icons/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface HeaderAction {
-  icon: keyof typeof MaterialCommunityIcons.glyphMap;
+  icon: MaterialDesignIconName;
   onPress: () => void;
   label?: string;
 }
@@ -92,7 +92,7 @@ export const Header = ({
                 ]}
                 onPress={action.onPress}
               >
-                <MaterialCommunityIcons
+                <MaterialDesignIcons
                   name={action.icon}
                   size={20}
                   color={theme.colors.text}

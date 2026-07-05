@@ -1,8 +1,7 @@
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
-import Feather from '@react-native-vector-icons/feather/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export const DashboardBanner = () => {

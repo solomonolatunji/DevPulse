@@ -1,11 +1,10 @@
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
-import Feather from '@react-native-vector-icons/feather/static';
-import React from 'react';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import { StyleSheet, Switch, TouchableOpacity, View } from 'react-native';
 
 interface SettingItemProps {
-  icon: keyof typeof Feather.glyphMap;
+  icon: FeatherIconName;
   label: string;
   value?: string;
   onPress?: () => void;

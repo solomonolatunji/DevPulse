@@ -2,9 +2,8 @@ import { GoalDetailsSkeleton } from '@/components/skeletons';
 import { GoalForm, type GoalSubmissionData } from '@/features/goals/GoalForm';
 import { useGoalMutation, useGoals, useTheme } from '@/hooks';
 import { scheduleGoalReminders } from '@/utilities';
-import Feather from '@react-native-vector-icons/feather/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function EditGoalScreen() {

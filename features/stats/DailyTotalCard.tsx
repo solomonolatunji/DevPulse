@@ -1,7 +1,6 @@
 import { Card, Typography } from '@/components';
 import { useTheme } from '@/hooks';
-import Feather from '@react-native-vector-icons/feather/static';
-import React from 'react';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import { StyleSheet, View } from 'react-native';
 
 interface DailyTotalCardProps {

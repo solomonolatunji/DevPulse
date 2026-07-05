@@ -1,9 +1,8 @@
 import { Button, Typography } from '@/components';
 import { useTheme } from '@/hooks';
 import { commonStyles } from '@/theme';
-import Feather from '@react-native-vector-icons/feather/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import { Link, Stack } from 'expo-router';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 export default function NotFoundScreen() {

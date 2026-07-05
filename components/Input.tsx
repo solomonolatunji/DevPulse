@@ -1,11 +1,11 @@
 import { useTheme } from '@/hooks/useTheme';
-import Feather from '@react-native-vector-icons/feather/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import React, { useRef, useState } from 'react';
 import {
   TextInput as NativeTextInput,
   Pressable,
-  StyleSheet,
   StyleProp,
+  StyleSheet,
   TextInputProps,
   View,
   ViewStyle,

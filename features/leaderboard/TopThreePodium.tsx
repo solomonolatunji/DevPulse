@@ -2,7 +2,7 @@ import { Avatar } from '@/components';
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks';
 import { LeaderboardUser } from '@/interfaces/leaderboard';
-import Feather from '@react-native-vector-icons/feather/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';

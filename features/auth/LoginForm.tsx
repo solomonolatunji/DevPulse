@@ -6,12 +6,12 @@ import { useTheme } from '@/hooks';
 import { AuthService } from '@/services/auth.service';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { toastError, toastSuccess } from '@/utilities/toast';
-import MaterialCommunityIcons from '@react-native-vector-icons/material-design-icons/static';
+import { MaterialDesignIcons } from '@react-native-vector-icons/material-design-icons/static';
 import { useAuthRequest } from 'expo-auth-session';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
 export function LoginForm() {
@@ -124,7 +124,7 @@ export function LoginForm() {
           disabled={!request}
           loading={!request && AuthConfig.clientId !== undefined}
           leftIcon={
-            <MaterialCommunityIcons
+            <MaterialDesignIcons
               name="github"
               size={20}
               color={theme.colors.textInverse}
@@ -162,7 +162,7 @@ export function LoginForm() {
                 <ActivityIndicator size="small" color={theme.colors.primary} />
               ) : (
                 <Pressable onPress={handleManualLogin}>
-                  <MaterialCommunityIcons
+                  <MaterialDesignIcons
                     name="arrow-right-circle"
                     size={28}
                     color={

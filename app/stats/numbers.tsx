@@ -7,19 +7,19 @@ import {
   Typography,
 } from '@/components';
 import { getCategoryColor, getOSColor } from '@/constants';
+import { BestDayCard } from '@/features';
+import { AIProductivityCard } from '@/features/stats';
+import { useMetadata, useStats, useTheme } from '@/hooks';
 import {
   WakaTimeLanguage,
   WakaTimeMachineStat,
   WakaTimeStats,
 } from '@/interfaces';
-import { BestDayCard } from '@/features';
-import { AIProductivityCard } from '@/features/stats';
-import { useMetadata, useStats, useTheme } from '@/hooks';
 import { RANGE_API_MAP, TimeRange, VALID_TIME_RANGES } from '@/utilities';
 import { generateDeterministicColor } from '@/utilities/colors';
-import Feather from '@react-native-vector-icons/feather/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import { useLocalSearchParams } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

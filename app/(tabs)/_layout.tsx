@@ -1,16 +1,5 @@
 import { useTheme } from '@/hooks';
-import MaterialCommunityIcons from '@react-native-vector-icons/material-design-icons/static';
-import { Tabs } from 'expo-router';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
-import React, { useEffect } from 'react';
-import { Platform } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type NativeTabName = 'index' | 'projects' | 'goals' | 'leaderboard';
 
@@ -48,37 +37,7 @@ const nativeTabConfig: Record<NativeTabName, NativeTabConfig> = {
   },
 };
 
-function AnimatedTabIcon({
-  name,
-  color,
-  size,
-  focused,
-}: {
-  name: MaterialIconName;
-  color: string;
-  size: number;
-  focused: boolean;
-}) {
-  const scale = useSharedValue(1);
-
-  useEffect(() => {
-    scale.value = focused
-      ? withSpring(1.15, { damping: 10, stiffness: 100 })
-      : withTiming(1, { duration: 200 });
-  }, [focused]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  return (
-    <Animated.View style={animatedStyle}>
-      <MaterialCommunityIcons name={name} size={size} color={color} />
-    </Animated.View>
-  );
-}
-
-function IosNativeTabs() {
+export default function TabLayout() {
   const { theme } = useTheme();
 
   return (
@@ -159,104 +118,4 @@ function IosNativeTabs() {
       </NativeTabs.Trigger>
     </NativeTabs>
   );
-}
-
-function AndroidCustomTabs() {
-  const { theme } = useTheme();
-  const insets = useSafeAreaInsets();
-
-  const safeBottomPadding = Math.max(insets.bottom, 12);
-
-  return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarActiveTintColor: theme.colors.primary,
-        tabBarInactiveTintColor: theme.colors.textSecondary,
-        tabBarStyle: {
-          backgroundColor: theme.colors.surface,
-          height:
-            Platform.OS === 'ios'
-              ? 88 + insets.bottom / 2
-              : 72 + safeBottomPadding,
-          paddingBottom: safeBottomPadding,
-          paddingTop: 8,
-          borderTopWidth: 0,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: -2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-        },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600',
-          marginTop: 4,
-        },
-        tabBarItemStyle: {
-          paddingVertical: 4,
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Pulse',
-          tabBarIcon: ({ color, size, focused }) => (
-            <AnimatedTabIcon
-              name="pulse"
-              color={color}
-              size={size}
-              focused={focused}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="projects"
-        options={{
-          title: 'Projects',
-          tabBarIcon: ({ color, size, focused }) => (
-            <AnimatedTabIcon
-              name="briefcase-outline"
-              color={color}
-              size={size}
-              focused={focused}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="goals"
-        options={{
-          title: 'Goals',
-          tabBarIcon: ({ color, size, focused }) => (
-            <AnimatedTabIcon
-              name="target"
-              color={color}
-              size={size}
-              focused={focused}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="leaderboard"
-        options={{
-          title: 'Leaders',
-          tabBarIcon: ({ color, size, focused }) => (
-            <AnimatedTabIcon
-              name="trophy-outline"
-              color={color}
-              size={size}
-              focused={focused}
-            />
-          ),
-        }}
-      />
-    </Tabs>
-  );
-}
-
-export default function TabLayout() {
-  return Platform.OS === 'ios' ? <IosNativeTabs /> : <AndroidCustomTabs />;
 }

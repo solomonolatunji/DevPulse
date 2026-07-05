@@ -2,9 +2,9 @@ import { BottomSheet } from '@/components/BottomSheet';
 import { Button } from '@/components/Button';
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
-import Feather from '@react-native-vector-icons/feather/static';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import React, { forwardRef } from 'react';
+import { Feather } from '@react-native-vector-icons/feather/static';
+import { forwardRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 interface LogoutBottomSheetProps {

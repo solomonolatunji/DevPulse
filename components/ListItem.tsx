@@ -1,5 +1,5 @@
 import { useTheme } from '@/hooks/useTheme';
-import Feather from '@react-native-vector-icons/feather/static';
+import { Feather } from '@react-native-vector-icons/feather/static';
 import React from 'react';
 import {
   Pressable,
