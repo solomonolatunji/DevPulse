@@ -7,12 +7,15 @@ import {
 } from '@/features/settings';
 import { useTheme, useUser } from '@/hooks';
 import { settingsService, telemetryService } from '@/services';
+import { wakaService } from '@/services/waka.service';
 import { useAuthStore } from '@/stores';
 import { settingsStyles as styles } from '@/theme';
+import { useQueryClient } from '@tanstack/react-query';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { Feather } from '@react-native-vector-icons/feather/static';
+import { format, subDays } from 'date-fns';
 import { useRouter } from 'expo-router';
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Linking, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -68,6 +71,21 @@ export default function SettingsScreen() {
     logout();
     router.replace('/');
   };
+
+  const queryClient = useQueryClient();
+
+  const handleSessionPress = useCallback(async () => {
+    const today = new Date();
+    const days = Array.from({ length: 7 }, (_, i) => subDays(today, i));
+    days.forEach((date) => {
+      queryClient.prefetchQuery({
+        queryKey: ['durations', format(date, 'yyyy-MM-dd')],
+        queryFn: () => wakaService.getDurations(format(date, 'yyyy-MM-dd')),
+        staleTime: 0,
+      });
+    });
+    router.push('/stats/sessions');
+  }, [queryClient, router]);
 
   const userData = user?.data;
 
@@ -155,7 +173,7 @@ export default function SettingsScreen() {
             icon="clock"
             label="Session History"
             description="Daily session activity timeline"
-            onPress={() => router.push('/stats/sessions')}
+            onPress={handleSessionPress}
           />
         </Card>
 

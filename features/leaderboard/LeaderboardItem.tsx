@@ -1,9 +1,11 @@
 import { Avatar, Card, Typography } from '@/components';
 import { useTheme } from '@/hooks';
 import { LeaderboardUser } from '@/interfaces/leaderboard';
+import { wakaService } from '@/services/waka.service';
 import { commonStyles } from '@/theme';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface LeaderboardItemProps {
@@ -51,12 +53,19 @@ export const LeaderboardItem = ({
 }: LeaderboardItemProps) => {
   const { theme } = useTheme();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const handlePress = useCallback(() => {
+    queryClient.prefetchQuery({
+      queryKey: ['stats', 'last_7_days', undefined],
+      queryFn: () => wakaService.getStats('last_7_days'),
+      staleTime: 2 * 60 * 1000,
+    });
+    router.push(`/user/${item.user.id}`);
+  }, [queryClient, router, item.user.id]);
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.7}
-      onPress={() => router.push(`/user/${item.user.id}`)}
-    >
+    <TouchableOpacity activeOpacity={0.7} onPress={handlePress}>
       <Card
         style={[
           styles.userCard,

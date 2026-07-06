@@ -2,6 +2,8 @@ import { Avatar } from '@/components';
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks';
 import { LeaderboardUser } from '@/interfaces/leaderboard';
+import { wakaService } from '@/services/waka.service';
+import { useQueryClient } from '@tanstack/react-query';
 import { Feather } from '@react-native-vector-icons/feather/static';
 import { useRouter } from 'expo-router';
 import React from 'react';
@@ -24,6 +26,16 @@ export const TopThreePodium = ({
 }: TopThreePodiumProps) => {
   const { theme, isDark } = useTheme();
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const handleUserPress = (userId: string) => {
+    queryClient.prefetchQuery({
+      queryKey: ['stats', 'last_7_days', undefined],
+      queryFn: () => wakaService.getStats('last_7_days'),
+      staleTime: 2 * 60 * 1000,
+    });
+    router.push(`/user/${userId}`);
+  };
 
   const displayTopThree = React.useMemo(() => {
     if (users.length === 0) return [];
@@ -62,7 +74,7 @@ export const TopThreePodium = ({
               isFirst && styles.podiumItemFirst,
               isSecond && styles.podiumItemSecond,
             ]}
-            onPress={() => router.push(`/user/${user.user.id}`)}
+            onPress={() => handleUserPress(user.user.id)}
           >
             <View style={styles.avatarWrapper}>
               <View
