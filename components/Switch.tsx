@@ -1,5 +1,4 @@
 import { useTheme } from '@/hooks/useTheme';
-import React from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Typography } from './Typography';
 

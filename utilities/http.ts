@@ -1,10 +1,10 @@
 import axios, {
   AxiosHeaders,
   AxiosInstance,
-  InternalAxiosRequestConfig,
   AxiosRequestConfig,
   AxiosResponse,
   CreateAxiosDefaults,
+  InternalAxiosRequestConfig,
 } from 'axios';
 import { encodeBase64 } from './base64';
 

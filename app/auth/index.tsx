@@ -2,7 +2,6 @@ import { Typography } from '@/components/Typography';
 import { LoginForm } from '@/features/auth';
 import { useTheme } from '@/hooks';
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
 import { Platform, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';

@@ -1,5 +1,5 @@
+import { StatsData, syncDailyStats } from '@/widgets';
 import { useEffect, useMemo, useRef } from 'react';
-import { syncDailyStats, StatsData } from '@/widgets';
 
 export const useWidgetSync = (
   stats: StatsData | undefined,

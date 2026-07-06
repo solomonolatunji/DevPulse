@@ -3,7 +3,6 @@ import { Card } from '@/components/Card';
 import { Typography } from '@/components/Typography';
 import { useLeaderboardContext } from '@/contexts/LeaderboardContext';
 import { useStats, useTheme, useUser } from '@/hooks';
-import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 

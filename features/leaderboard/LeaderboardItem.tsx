@@ -5,7 +5,7 @@ import { wakaService } from '@/services/waka.service';
 import { commonStyles } from '@/theme';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 interface LeaderboardItemProps {

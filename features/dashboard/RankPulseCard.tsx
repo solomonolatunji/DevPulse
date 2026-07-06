@@ -3,7 +3,7 @@ import { COUNTRIES } from '@/constants/countries';
 import { useLeaderboard, useUser } from '@/hooks';
 import { useTheme } from '@/hooks/useTheme';
 import { useRouter } from 'expo-router';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   ActivityIndicator,
   StyleSheet,

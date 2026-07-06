@@ -1,5 +1,4 @@
 import { useTheme } from '@/hooks';
-import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Card } from '../Card';
 import { Skeleton } from '../Skeleton';

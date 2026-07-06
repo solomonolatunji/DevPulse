@@ -1,6 +1,5 @@
 'use no memo';
 
-import React from 'react';
 import { Voltra } from 'voltra';
 import type { StatsData } from './interface';
 

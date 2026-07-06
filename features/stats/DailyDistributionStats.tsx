@@ -2,7 +2,6 @@ import { SegmentedStatsCard } from '@/components';
 import { getCategoryColor, getOSColor, getWorkstationColor } from '@/constants';
 import { useActivity, useMetadata } from '@/hooks';
 import { WakaTimeSummary } from '@/interfaces';
-import React from 'react';
 
 interface DailyDistributionStatsProps {
   data: WakaTimeSummary | null | undefined;

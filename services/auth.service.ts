@@ -1,10 +1,9 @@
 import { AuthConfig } from '@/features/auth/AuthConfig';
-import { encodeBase64 } from '@/utilities/base64';
 import {
   normalizeTokenResponse,
   parseTokenPayload,
-  type RawTokenPayload,
 } from '@/utilities/authToken';
+import { encodeBase64 } from '@/utilities/base64';
 import {
   createHttpClient,
   isSuccessfulStatus,

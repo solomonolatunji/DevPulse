@@ -3,7 +3,6 @@ import { DELTA_OPTIONS, WEEKDAY_OPTIONS } from '@/constants/goals';
 import { useTheme } from '@/hooks';
 import { WakaTimeGoal } from '@/interfaces';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
 import { Controller, Resolver, useForm } from 'react-hook-form';
 import { StyleSheet, Switch, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';

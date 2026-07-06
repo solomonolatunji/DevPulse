@@ -1,7 +1,6 @@
 import { Avatar, Typography } from '@/components';
 import { useTheme, useUser } from '@/hooks';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { OrganizationSwitcher } from './OrganizationSwitcher';
 

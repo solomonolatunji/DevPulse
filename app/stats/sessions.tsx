@@ -5,13 +5,7 @@ import { useDurations, useTheme } from '@/hooks';
 import { sessionStyles as styles } from '@/theme';
 import { useQueryClient } from '@tanstack/react-query';
 import { format, subDays } from 'date-fns';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AppState,
   AppStateStatus,

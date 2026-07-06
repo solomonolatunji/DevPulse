@@ -1,5 +1,4 @@
 import { useTheme } from '@/hooks/useTheme';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Card } from './Card';
 import { Typography } from './Typography';

@@ -8,7 +8,7 @@ import {
   Text as SkiaText,
   matchFont,
 } from '@shopify/react-native-skia';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { Card } from './Card';
 import { Typography } from './Typography';

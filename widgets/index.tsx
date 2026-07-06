@@ -1,7 +1,6 @@
 'use no memo';
 
 import { androidNotificationService } from '@/services/android-notification.service';
-import React from 'react';
 import { Platform } from 'react-native';
 import { Voltra } from 'voltra';
 import { updateAndroidWidget } from 'voltra/android/client';

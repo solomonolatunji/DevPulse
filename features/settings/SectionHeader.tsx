@@ -1,6 +1,5 @@
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
-import React from 'react';
 import { StyleSheet } from 'react-native';
 
 interface SectionHeaderProps {

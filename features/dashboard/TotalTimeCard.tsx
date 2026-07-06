@@ -4,7 +4,6 @@ import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
 import { commonStyles } from '@/theme';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 interface ProjectTime {

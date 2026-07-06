@@ -2,7 +2,6 @@ import { Card, Typography } from '@/components';
 import { getLanguageColor } from '@/constants';
 import { useTheme } from '@/hooks';
 import { formatDuration } from '@/utilities';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 interface UserLanguagesProps {

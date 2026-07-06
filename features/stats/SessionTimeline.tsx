@@ -2,7 +2,6 @@ import { Typography } from '@/components';
 import { SECONDS_IN_DAY, SECONDS_IN_HOUR } from '@/constants';
 import { useTheme } from '@/hooks';
 import { Canvas, Rect } from '@shopify/react-native-skia';
-import React from 'react';
 import { StyleSheet, View, useWindowDimensions } from 'react-native';
 
 interface Session {

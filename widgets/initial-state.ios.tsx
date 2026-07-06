@@ -1,6 +1,5 @@
 'use no memo';
 
-import React from 'react';
 import type { WidgetVariants as VoltraWidgetVariants } from 'voltra';
 import { DailyStatsWidgetIOS } from './DailyStatsWidgetIOS';
 

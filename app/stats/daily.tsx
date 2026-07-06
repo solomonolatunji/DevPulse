@@ -3,7 +3,6 @@ import { StatsHeader } from '@/components/nav/StatsHeader';
 import { DailyStatsShareCard } from '@/components/share';
 import { DailyStatsSkeleton } from '@/components/skeletons';
 import { DailyDistributionStats, DailyTotalCard } from '@/features/stats';
-import { WakaTimeSummaryItem } from '@/interfaces';
 import {
   useDurations,
   useShareScreenshot,
@@ -11,10 +10,11 @@ import {
   useSummaries,
   useTheme,
 } from '@/hooks';
+import { WakaTimeSummaryItem } from '@/interfaces';
 import { formatDisplayDuration, getDailyStatsTitle } from '@/utilities';
 import { endOfDay, format, parseISO, startOfDay } from 'date-fns';
 import { useLocalSearchParams } from 'expo-router';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 
 export default function DailyScreen() {

@@ -2,7 +2,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { createAvatar } from '@dicebear/core';
 import * as personas from '@dicebear/personas';
 import { Image } from 'expo-image';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { ImageSourcePropType, View } from 'react-native';
 
 interface AvatarProps {

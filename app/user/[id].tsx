@@ -4,7 +4,6 @@ import { ProfileHeader, ProfileStats, UserLanguages } from '@/features';
 import { useTheme, useUserProfile } from '@/hooks';
 import { userProfileStyles as styles } from '@/theme';
 import { useLocalSearchParams } from 'expo-router';
-import React from 'react';
 import { RefreshControl, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

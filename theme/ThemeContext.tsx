@@ -1,5 +1,5 @@
 import { settingsService } from '@/services/settings.service';
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import { darkTheme } from './dark';
 import { lightTheme, Theme } from './light';

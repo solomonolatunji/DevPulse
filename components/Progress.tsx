@@ -1,5 +1,5 @@
 import { useTheme } from '@/hooks/useTheme';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { ActivityIndicator, Animated, View, ViewStyle } from 'react-native';
 import { Typography } from './Typography';
 

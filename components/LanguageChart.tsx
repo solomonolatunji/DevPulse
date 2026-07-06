@@ -1,7 +1,7 @@
 import { useMetadata, useTheme } from '@/hooks';
 import { WakaTimeLanguage } from '@/interfaces';
 import { Canvas, Path, Skia } from '@shopify/react-native-skia';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Typography } from './';
 

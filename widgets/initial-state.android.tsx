@@ -1,6 +1,5 @@
 'use no memo';
 
-import React from 'react';
 import type { AndroidWidgetVariants } from 'voltra/android/client';
 import { DailyStatsWidgetAndroid } from './DailyStatsWidgetAndroid';
 

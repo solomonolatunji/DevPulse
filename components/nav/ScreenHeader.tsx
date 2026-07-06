@@ -1,6 +1,5 @@
 import { Typography } from '@/components/Typography';
 import { useTheme } from '@/hooks/useTheme';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BackButton } from './BackButton';

@@ -1,7 +1,7 @@
 import { Typography } from '@/components/Typography';
 import { STATS_RANGES, StatsRange } from '@/constants/wakatime';
 import { useTheme } from '@/hooks/useTheme';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import {
   Animated,
   StyleSheet,

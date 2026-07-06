@@ -3,7 +3,6 @@ import { useTheme } from '@/hooks';
 import { commonStyles } from '@/theme';
 import { Canvas, Circle, Path, Skia } from '@shopify/react-native-skia';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 const SIZE = 240;

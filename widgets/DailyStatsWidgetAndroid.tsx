@@ -1,6 +1,5 @@
 'use no memo';
 
-import React from 'react';
 import { VoltraAndroid } from 'voltra/android';
 import type { StatsData } from './interface';
 

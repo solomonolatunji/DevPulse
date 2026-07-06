@@ -1,5 +1,7 @@
+export * from './commit';
 export * from './duration';
 export * from './goal';
+export * from './insights';
 export * from './leaderboard';
 export * from './metadata';
 export * from './organization';
@@ -7,5 +9,3 @@ export * from './project';
 export * from './stats';
 export * from './summary';
 export * from './user';
-export * from './insights';
-export * from './commit';
